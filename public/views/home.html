@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <?php include __DIR__ . '/partials/head.html'; ?>
+  <title>Home</title>
+</head>
+
+<body>
+  <?php include __DIR__ . '/partials/nav.html'; ?>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-left">
+        <h1>
+          Find <span class="accent">Verified Experts</span> in Your Area
+        </h1>
+
+        <p>
+          Connect with trusted local artisans, from plumbers to electricians.
+        </p>
+
+        <!-- SEARCH -->
+        <div class="search-box">
+          <input type="text" placeholder="Expertise (e.g. #plumber)" />
+          <input type="text" placeholder="City" />
+          <button>Search Now</button>
+        </div>
+
+        <!-- TAGI -->
+        <div class="popular">
+          <span>Popular:</span>
+          <span class="tag">#electrician</span>
+          <span class="tag">#carpenter</span>
+          <span class="tag">#hvac</span>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <img src="https://via.placeholder.com/400x500" />
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how">
+      <h2>How it Works</h2>
+
+      <div class="steps">
+        <div class="step">
+          <h3>Browse Professionals</h3>
+          <p>Explore verified experts.</p>
+        </div>
+
+        <div class="step">
+          <h3>Get Quotes</h3>
+          <p>Receive transparent pricing.</p>
+        </div>
+
+        <div class="step">
+          <h3>Hire</h3>
+          <p>Book with confidence.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <?php include __DIR__ . '/partials/footer.html'; ?>
+
+</body>
+</html>

@@ -471,3 +471,87 @@ footer {
   color: #6b7280;
   font-size: 14px;
 }
+
+/* ===== HERO ===== */
+.hero {
+  display: flex;
+  gap: 60px;
+  align-items: center;
+  margin-top: 120px;
+}
+
+.hero-left {
+  flex: 1;
+}
+
+.hero-right img {
+  width: 100%;
+  border-radius: 20px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-family: 'Newsreader', serif;
+}
+
+.hero p {
+  margin: 20px 0;
+  color: #555;
+}
+
+.accent {
+  color: #ffb55c;
+  font-style: italic;
+}
+
+/* SEARCH */
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.search-box input {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #eee;
+}
+
+.search-box button {
+  padding: 12px 20px;
+  border: none;
+  background: #002045;
+  color: white;
+  border-radius: 8px;
+}
+
+/* TAGI */
+.popular {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tag {
+  background: #eee;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+/* ===== HOW ===== */
+.how {
+  margin-top: 120px;
+  text-align: center;
+}
+
+.steps {
+  display: flex;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.step {
+  flex: 1;
+}
