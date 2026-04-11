@@ -411,7 +411,63 @@ aside .checkbox {
 
 /* ===== FOOTER ===== */
 footer {
-  margin-top: 80px;
   background: #f3f4f5;
-  padding: 40px 24px;
+  margin-top: 80px;
+  padding-top: 50px;
+  font-family: 'Inter', sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+}
+
+/* BRAND */
+.footer-brand h3 {
+  font-family: 'Newsreader', serif;
+  color: #1A365D;
+  margin-bottom: 10px;
+}
+
+.footer-brand p {
+  color: #6b7280;
+  font-size: 14px;
+  max-width: 250px;
+}
+
+/* COLUMNS */
+.footer-col h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #002045;
+  margin-bottom: 10px;
+}
+
+.footer-col a {
+  display: block;
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 6px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.footer-col a:hover {
+  color: #ffb55c;
+}
+
+/* BOTTOM BAR */
+.footer-bottom {
+  border-top: 1px solid #ddd;
+  margin-top: 40px;
+  padding: 20px 24px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #6b7280;
+  font-size: 14px;
 }
