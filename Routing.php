@@ -30,6 +30,10 @@ class Routing {
             "controller" => "SecurityController",
             "action" => "login"
         ],
+        "register" => [
+            "controller" => "SecurityController",
+            "action" => "register"
+        ],
         "nowy" => [
             "controller" => "SecurityController",
             "action" => "login2"
