@@ -36,4 +36,15 @@ class UsersRepository extends Repository {
             $hashedPassword
         ]);
     }
+            "
+            SELECT * FROM users;
+            "
+        );
+        $query->execute();
+
+        $users = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $users;
+    }
+
+
 }
