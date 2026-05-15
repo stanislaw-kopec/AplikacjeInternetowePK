@@ -38,7 +38,8 @@ CREATE TABLE profiles (
 CREATE TABLE specialists (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    profession VARCHAR(100) NOT NULL
+    profession VARCHAR(100) NOT NULL,
+    phone VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE reviews (
@@ -75,3 +76,8 @@ CREATE TABLE specialist_locations (
         REFERENCES locations(id)
         ON DELETE CASCADE
 );
+
+INSERT INTO specialists (name, profession, phone) VALUES
+('Adam Kowalski', 'Hydraulik', '+48 601 234 567'),
+('Marek Wiśniewski', 'Elektryk', '+48 602 345 678'),
+('Anna Nowak', 'Tynkarz', '+48 603 456 789');

@@ -55,11 +55,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // View Profile button
+    // View Profile button - POPRAWIONE
 const viewButtons = document.querySelectorAll('.btn-view-profile');
 viewButtons.forEach(btn => {
     btn.addEventListener('click', function() {
+        // Na razie przekieruj do statycznej strony
         window.location.href = '/expert-detail';
+        
+        // TODO: Dynamiczne przekierowanie z ID
+        // const card = this.closest('.profile-card');
+        // const specialistId = card.getAttribute('data-specialist-id');
+        // window.location.href = '/expert-detail/' + specialistId;
     });
 });
     

@@ -13,11 +13,13 @@ class Location {
         $this->id = $id;
     }
 
-    public function getId(): int {
+    public function getId(): int
+    {
         return $this->id;
     }
 
-    public function getCity(): string {
+    public function getCity(): string
+    {
         return $this->city;
     }
 }

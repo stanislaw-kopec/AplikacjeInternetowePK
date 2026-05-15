@@ -3,17 +3,12 @@
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/DashboardController.php';
 require_once 'src/controllers/HomeController.php';
+require_once 'src/controllers/SpecialistController.php';
+require_once 'src/controllers/LocationController.php';
 
-// TODO musimy zapewnic, ze utworzony 
-// obiekt kontrollera ma tylko jedna instancję - SINGLETON
-
-// TODO 2 /dashboard -- wszystkei dnae
-// /dashboard/12234 -- wyciagnie nam jakis elemtn o wskaznaym ID 12234
-
-// REGEX
 class Routing {
 
-     public static $routes = [
+    public static $routes = [
         "login" => [
             "controller" => "SecurityController",
             "action" => "login"
@@ -34,28 +29,50 @@ class Routing {
             "controller" => "SecurityController",
             "action" => "register"
         ],
-        "nowy" => [
-            "controller" => "SecurityController",
-            "action" => "login2"
+        "specialists" => [
+            "controller" => "SpecialistController",
+            "action" => "specialists"
         ],
-        "register" => [
-            "controller" => "SecurityController",
-            "action" => "register"
+        "create-specialist" => [
+            "controller" => "SpecialistController",
+            "action" => "create"
+        ],
+        "locations" => [
+            "controller" => "LocationController",
+            "action" => "locations"
+        ],
+        "create-location" => [
+            "controller" => "LocationController",
+            "action" => "create"
+        ],
+        "pro-dashboard" => [
+        "controller" => "DashboardController",
+        "action" => "proDashboard"
+        ],
+        "expert-detail" => [
+        "controller" => "SpecialistController",
+        "action" => "expertDetail"
+        ],
+        "profile-settings" => [
+        "controller" => "DashboardController",
+        "action" => "profileSettings"
+        ],
+        "assign-location" => [
+            "controller" => "SpecialistController",
+            "action" => "assignLocation"
         ]
     ];
 
+    public static function run(string $path, $id = null) {
+        if (!array_key_exists($path, self::$routes)) {
+            include 'public/views/404.html';
+            return;
+        }
 
-public static function run(string $path, $id = null) {
-    if (!array_key_exists($path, self::$routes)) {
-        include 'public/views/404.html';
-        return;
+        $controller = self::$routes[$path]["controller"];
+        $action = self::$routes[$path]["action"];
+
+        $controllerObj = new $controller;
+        $controllerObj->$action($id);
     }
-
-    $controller = self::$routes[$path]["controller"];
-    $action = self::$routes[$path]["action"];
-
-    $controllerObj = new $controller;
-    $controllerObj->$action($id);
-}
-
 }

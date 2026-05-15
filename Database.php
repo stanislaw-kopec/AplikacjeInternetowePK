@@ -1,14 +1,13 @@
 <?php
-// .env 
 require_once "config.php";
 
-// singleton 
 class Database {
     private $username;
     private $password;
     private $host;
     private $database;
-    // private $conn;
+    private static $instance = null;
+    private $conn;
 
     public function __construct()
     {
@@ -18,27 +17,31 @@ class Database {
         $this->database = DATABASE;
     }
 
-    public function connect()
+    public static function getInstance()
     {
-        try {
-            $conn = new PDO(
-                "pgsql:host=$this->host;port=5432;dbname=$this->database",
-                $this->username,
-                $this->password,
-                ["sslmode"  => "prefer"]
-            );
-
-            // set the PDO error mode to exception
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $conn;
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
-        catch(PDOException $e) {
-            // change to error page e.g. 404 not found etc.
-            die("Connection failed: " . $e->getMessage());
-        }
+        return self::$instance;
     }
 
-    public function disconnect() {
-        // $this->conn = null;
+    public function connect()
+    {
+        if ($this->conn === null) {
+            try {
+                $this->conn = new PDO(
+                    "pgsql:host=$this->host;port=5432;dbname=$this->database",
+                    $this->username,
+                    $this->password,
+                    ["sslmode" => "prefer"]
+                );
+
+                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }
+            catch(PDOException $e) {
+                die("Connection failed: " . $e->getMessage());
+            }
+        }
+        return $this->conn;
     }
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj Fachowca</title>
+</head>
+<body>
+    <h1>Dodaj nowego fachowca</h1>
+    
+    <form method="POST" action="/create-specialist">
+        <div>
+            <label for="name">Imię i nazwisko:</label>
+            <input type="text" id="name" name="name" placeholder="Np. Adam Kowalski" required>
+        </div>
+        
+        <div>
+            <label for="profession">Zawód:</label>
+            <input type="text" id="profession" name="profession" placeholder="Np. Hydraulik" required>
+        </div>
+        
+        <div>
+            <label for="phone">Telefon:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Np. +48 123 456 789" required>
+        </div>
+        
+        <button type="submit">Dodaj fachowca</button>
+    </form>
+</body>
+</html>
