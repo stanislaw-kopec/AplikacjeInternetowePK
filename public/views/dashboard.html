@@ -1,203 +1,290 @@
-<!doctype html>
-<html lang="pl">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <?php include __DIR__ . '/partials/head.html'; ?>
-  <title>Experts</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Find Experts - FachowiecNaJuz</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/styles/dashboard.css"/>
 </head>
-
 <body>
-
-<?php include __DIR__ . '/partials/nav.html'; ?>
-
-<div class="container main">
-
-  <header class="header">
-    <h1>
-      24 Results for <span>#Plumber</span> in Warszawa
-    </h1>
-    <p>Carefully selected top-tier professionals ready to assist you today.</p>
-  </header>
-
-  <div class="layout">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-
-      <section>
-        <h4>City</h4>
-        <input type="text" value="Warszawa">
-      </section>
-
-      <section>
-        <h4>Minimum Rating</h4>
-        <div class="rating">⭐⭐⭐⭐☆ 4.0+</div>
-        <div class="rating active">⭐⭐⭐☆☆ 3.0+</div>
-      </section>
-
-      <section>
-        <h4>Specializations</h4>
-        <label><input type="checkbox" checked> Emergency Repair</label>
-        <label><input type="checkbox"> Installation</label>
-        <label><input type="checkbox"> Certified Green</label>
-        <label><input type="checkbox"> Industrial</label>
-      </section>
-
-    </aside>
-
-    <!-- CARDS -->
-    <main class="cards">
-
-      <div class="card">
-        <div class="card-top">
-          <img src="https://via.placeholder.com/80">
-          <div>
-            <h3>Adam Kowalski</h3>
-            <div class="stars">⭐ 4.9 (128)</div>
-          </div>
+    <!-- Top Navigation -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <span class="logo">FachowiecNaJuz</span>
+                <div class="nav-links">
+                    <a href="/home">Home</a>
+                    <a href="/dashboard" class="active">Find Experts</a>
+                    <a href="/pro-dashboard">For Professionals</a>
+                </div>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-sign-in">Sign In</button>
+                <button class="btn-join-pro">Join as Pro</button>
+                <button class="mobile-menu-btn" aria-label="Menu">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
         </div>
-
-        <div class="tags">
-          <span>Hydraulics</span>
-          <span>Emergency</span>
-          <span>Boilers</span>
+        <div class="mobile-menu">
+            <a href="/home">Home</a>
+            <a href="/dashboard" class="active">Find Experts</a>
+            <a href="/pro-dashboard">For Professionals</a>
+            <button class="btn-sign-in mobile-btn">Sign In</button>
+            <button class="btn-join-pro mobile-btn">Join as Pro</button>
         </div>
+    </nav>
 
-        <p>Master plumber with 15 years experience.</p>
-        <button class="btn-card">View Profile</button>
-      </div>
+    <!-- Main Content -->
+    <main>
+        <!-- Results Header -->
+        <header class="results-header">
+            <h1>24 Results for <span>#Plumber</span> in Warszawa</h1>
+            <p>Carefully selected top-tier professionals ready to assist you today.</p>
+        </header>
 
-      <div class="card">
-        <div class="card-top">
-          <img src="https://via.placeholder.com/80">
-          <div>
-            <h3>Adam Kowalski</h3>
-            <div class="stars">⭐ 4.9 (128)</div>
-          </div>
+        <div class="content-layout">
+            <!-- Sidebar Filters -->
+            <aside class="sidebar">
+                <div class="sidebar-sticky">
+                    <!-- City Filter -->
+                    <div class="filter-section">
+                        <label class="filter-label">City</label>
+                        <div class="filter-input-wrapper">
+                            <input type="text" value="Warszawa"/>
+                            <span class="material-symbols-outlined">location_on</span>
+                        </div>
+                    </div>
+
+                    <!-- Rating Filter -->
+                    <div class="filter-section">
+                        <label class="filter-label">Minimum Rating</label>
+                        <div class="rating-options">
+                            <button class="rating-btn">
+                                <div class="rating-stars">
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="material-symbols-outlined">star_outline</span>
+                                </div>
+                                <span class="rating-text">4.0 & Up</span>
+                            </button>
+                            <button class="rating-btn active">
+                                <div class="rating-stars">
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="material-symbols-outlined">star_outline</span>
+                                    <span class="material-symbols-outlined">star_outline</span>
+                                </div>
+                                <span class="rating-text">3.0 & Up</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Specializations Filter -->
+                    <div class="filter-section">
+                        <label class="filter-label">Specializations</label>
+                        <div class="specialization-options">
+                            <label class="specialization-option">
+                                <input type="checkbox" checked/>
+                                <span>Emergency Repair</span>
+                            </label>
+                            <label class="specialization-option">
+                                <input type="checkbox"/>
+                                <span>Installation</span>
+                            </label>
+                            <label class="specialization-option">
+                                <input type="checkbox"/>
+                                <span>Certified Green</span>
+                            </label>
+                            <label class="specialization-option">
+                                <input type="checkbox"/>
+                                <span>Industrial</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Cards Grid -->
+            <div class="cards-grid">
+                <!-- Profile Card 1 -->
+                <div class="profile-card">
+                    <div class="card-header">
+                        <img alt="Professional portrait" class="card-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHW2ZglljagmqE8xNcYWBZRM9rUvRqaQol0oXLXBE9_m6KgcZNR-bBqe43VtowEeMbf8t-mVhg9leDBXj2rZbbqaYWXXRBcUVulMV-zJGEQLr3ZpJ0lJP4miVqhdlyXNmmTWq26qLyiarnpkBOoszsjBOlyMG_xRedEsCDTbSkoID5JUCDwv087Aiqr55otHbTcvCdx04FqWqR88moCTICSba_95JqlqeE2uQDzCgL_WtpqCkUM4WR895m7WU_-Ml6x54pWZwG85g"/>
+                        <div class="card-info">
+                            <h3>Adam Kowalski</h3>
+                            <div class="card-rating">
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="rating-value">4.9</span>
+                                <span class="rating-count">(128 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">Hydraulics</span>
+                        <span class="tag">Emergency</span>
+                        <span class="tag">Boilers</span>
+                    </div>
+                    <p class="card-description">Master plumber with 15 years of experience in central heating and complex leak detections.</p>
+                    <button class="btn-view-profile">View Profile</button>
+                </div>
+
+                <!-- Profile Card 2 -->
+                <div class="profile-card">
+                    <div class="card-header">
+                        <img alt="Professional portrait" class="card-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3OW3zkIdttpqRag0xUupUP7IqmL51J32lfUqp3fUNz3JQQGHthIogVTsDTzrrV6AhQbg48gHCPKn_V71l7OEPdUmT6MFEBPvMIzCyj8NsKQSGfCtiZppNWX5HL8xf0JqfptSLPyXmyAB1R17MLbJtIMSBRhbp3bF1V2KMcNiW_bKKrDAfVjYYbLOjUDv8ywZLMoiuBPFa8mIZUXfHukX7G-NItLJbuJg0pEd3MK6q46bwyult2dYvB4X5NaWPZ-MwxWDUy0fUrBM"/>
+                        <div class="card-info">
+                            <h3>Marek Wiśniewski</h3>
+                            <div class="card-rating">
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="rating-value">4.8</span>
+                                <span class="rating-count">(94 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">Plumbing</span>
+                        <span class="tag">Sanitary</span>
+                        <span class="tag">Quick Fix</span>
+                    </div>
+                    <p class="card-description">Specializing in modern bathroom installations and eco-friendly water systems.</p>
+                    <button class="btn-view-profile">View Profile</button>
+                </div>
+
+                <!-- Profile Card 3 -->
+                <div class="profile-card">
+                    <div class="card-header">
+                        <img alt="Professional portrait" class="card-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFIWhc6vux3lu4GUu1hUArTZpfu5p_lWHApRoRQJ8_zYPtOr97DChRYuJiy6vYI-keZHl7g8nDzGEDk_NST4i0Lo6ESNnkJ4WXyk-JI41v4XWk_SUYSR_c0zlqDVTJLxySsK7fuXVqwMkE-O-54hDuP5bkApWygN3IrLPk3oHVxk43fJZMkhB73CXo7qmKilnzzG07veMZDUqbgGQ8o4l9AkQGl9gq_J4TrUkqLjXghPZezD0ISrkxooHrkwa-1iE8JRBUG5PbqT4"/>
+                        <div class="card-info">
+                            <h3>Anna Nowak</h3>
+                            <div class="card-rating">
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="rating-value">5.0</span>
+                                <span class="rating-count">(42 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">Leaks</span>
+                        <span class="tag">Diagnostics</span>
+                        <span class="tag">Pipes</span>
+                    </div>
+                    <p class="card-description">Expert in non-invasive leak detection and precision pipe repair.</p>
+                    <button class="btn-view-profile">View Profile</button>
+                </div>
+
+                <!-- Profile Card 4 -->
+                <div class="profile-card">
+                    <div class="card-header">
+                        <img alt="Professional portrait" class="card-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6ItRSboYonJk8vesgeM-O_hISibMZvqsPT7DPfqB3T8wpzmZmhyWY3CWMfVbWMTgHkqBSBvu7rkKkS9b5Px7KJRSjcoSPoBmZM1IHNj7wjIu2WuDa54tIj75-jmOFhMPQxy-Da321JZNfAmuKhyvVlv88hEvcL108gcoWqIP7UyIra9vOQFK9iUVTVLfSNFfgW15aO9cO8tRlc5N_Cv8NVf6zc9LgnQuKxydUQldLuMnp-09LbEoeLffDO7I_IU0IGHg3h7ANdt0"/>
+                        <div class="card-info">
+                            <h3>Piotr Zieliński</h3>
+                            <div class="card-rating">
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="rating-value">4.7</span>
+                                <span class="rating-count">(215 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">Renovation</span>
+                        <span class="tag">Drains</span>
+                        <span class="tag">Design</span>
+                    </div>
+                    <p class="card-description">Providing comprehensive plumbing design and full-scale renovation services for over a decade.</p>
+                    <button class="btn-view-profile">View Profile</button>
+                </div>
+
+                <!-- Profile Card 5 -->
+                <div class="profile-card">
+                    <div class="card-header">
+                        <img alt="Professional portrait" class="card-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqp1UD61zeZid7_HdDBaLG7mWAiTvfSJIE8E7qMg56jjAXnHc2Uc-QkpvH0NwvPF0cpVBXB4bF9HQeB0dw_W_5DiQvpbuoSoDFJXfv4obhS8NOWBYXK0FWQ8gcAldBaavKdiHvSbDiGUIVEZDeUp5Jqv7I1PF4dlz1PwmJ52BK1-MzmR5ErJcJQH0QRyi-DN_w2c5-Xh1WZOKIW85a1wN6QueqfHDF1ETTIwyX6AIPu2SHVVbgHKku9DpA7WmRYobldtrDkOYocv8"/>
+                        <div class="card-info">
+                            <h3>Tomasz Lewandowski</h3>
+                            <div class="card-rating">
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="rating-value">4.9</span>
+                                <span class="rating-count">(56 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">Industrial</span>
+                        <span class="tag">Maintenance</span>
+                        <span class="tag">Cert</span>
+                    </div>
+                    <p class="card-description">Certified specialist for industrial plumbing networks and large-scale facility maintenance.</p>
+                    <button class="btn-view-profile">View Profile</button>
+                </div>
+
+                <!-- Profile Card 6 -->
+                <div class="profile-card">
+                    <div class="card-header">
+                        <img alt="Professional portrait" class="card-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWz70opVLeHGdSYXdFhI9ULJuYLZtNbejk-4BapJIpumd3L734njLb5pZJFGzWCfKljPPXv4A2ufwvPufiLWFpDGqR3LjWjbVcSHnGWM7pUBjA4S7-ObgklX5QjV0I6KfcQm2XmRJ_PfDigmGtgqq4i_RFY_wUNuPdQurbeYeV9i907nf_WS3gcIwmtZfjNW6qTbF0KMqogNZ1Yq8l1okzzEKbh5GpdgFNDD7PvhxJfjP9yC9qtGSIY09YRSnGUd7UgO52dLOTjyM"/>
+                        <div class="card-info">
+                            <h3>Jan Szymański</h3>
+                            <div class="card-rating">
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="rating-value">4.6</span>
+                                <span class="rating-count">(189 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag">General</span>
+                        <span class="tag">Repairs</span>
+                        <span class="tag">Taps</span>
+                    </div>
+                    <p class="card-description">Reliable general plumbing services for homes. Fast response and honest pricing.</p>
+                    <button class="btn-view-profile">View Profile</button>
+                </div>
+            </div>
         </div>
-
-        <div class="tags">
-          <span>Hydraulics</span>
-          <span>Emergency</span>
-          <span>Boilers</span>
-        </div>
-
-        <p>Master plumber with 15 years experience.</p>
-        <button class="btn-card">View Profile</button>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <img src="https://via.placeholder.com/80">
-          <div>
-            <h3>Anna Nowak</h3>
-            <div class="stars">⭐ 5.0 (42)</div>
-          </div>
-        </div>
-
-        <div class="tags">
-          <span>Leaks</span>
-          <span>Pipes</span>
-        </div>
-
-        <p>Expert in leak detection.</p>
-        <button class="btn-card">View Profile</button>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <img src="https://via.placeholder.com/80">
-          <div>
-            <h3>Adam Kowalski</h3>
-            <div class="stars">⭐ 4.9 (128)</div>
-          </div>
-        </div>
-
-        <div class="tags">
-          <span>Hydraulics</span>
-          <span>Emergency</span>
-          <span>Boilers</span>
-        </div>
-
-        <p>Master plumber with 15 years experience.</p>
-        <button class="btn-card">View Profile</button>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <img src="https://via.placeholder.com/80">
-          <div>
-            <h3>Adam Kowalski</h3>
-            <div class="stars">⭐ 4.9 (128)</div>
-          </div>
-        </div>
-
-        <div class="tags">
-          <span>Hydraulics</span>
-          <span>Emergency</span>
-          <span>Boilers</span>
-        </div>
-
-        <p>Master plumber with 15 years experience.</p>
-        <button class="btn-card">View Profile</button>
-      </div>
-
-      <div class="card">
-        <div class="card-top">
-          <img src="https://via.placeholder.com/80">
-          <div>
-            <h3>Adam Kowalski</h3>
-            <div class="stars">⭐ 4.9 (128)</div>
-          </div>
-        </div>
-
-        <div class="tags">
-          <span>Hydraulics</span>
-          <span>Emergency</span>
-          <span>Boilers</span>
-        </div>
-
-        <p>Master plumber with 15 years experience.</p>
-        <button class="btn-card">View Profile</button>
-      </div>
-
     </main>
 
-  </div>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">FachowiecNaJuz</div>
+                <p>Connecting quality craftsmanship with those who value excellence.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 FachowiecNaJuz. All rights reserved.</p>
+        </div>
+    </footer>
 
-</div>
-
-<footer>
-  <div class="footer-container">
-    
-    <div class="footer-brand">
-      <h3>FachowiecNaJuz</h3>
-      <p>Connecting quality craftsmanship with those who value excellence.</p>
-    </div>
-
-    <div class="footer-col">
-      <h4>Company</h4>
-      <a href="#">About Us</a>
-      <a href="#">Careers</a>
-    </div>
-
-    <div class="footer-col">
-      <h4>Support</h4>
-      <a href="#">Help Center</a>
-      <a href="#">Contact Support</a>
-    </div>
-
-    <div class="footer-col">
-      <h4>Legal</h4>
-      <a href="#">Terms of Service</a>
-      <a href="#">Privacy Policy</a>
-    </div>
-
-  </div>
-
-  <div class="footer-bottom">
-    © 2024 FachowiecNaJuz. All rights reserved.
-  </div>
-</footer>
-
+    <script src="/public/scripts/dashboard.js"></script>
 </body>
 </html>

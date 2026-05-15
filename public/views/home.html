@@ -1,72 +1,255 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="scroll-smooth" lang="en">
 <head>
-  <?php include __DIR__ . '/partials/head.html'; ?>
-  <title>Home</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>FachowiecNaJuz - Find Verified Experts</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/public/styles/home.css"/>
 </head>
-
 <body>
-  <?php include __DIR__ . '/partials/nav.html'; ?>
-
-  <main>
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-left">
-        <h1>
-          Find <span class="accent">Verified Experts</span> in Your Area
-        </h1>
-
-        <p>
-          Connect with trusted local artisans, from plumbers to electricians.
-        </p>
-
-        <!-- SEARCH -->
-        <div class="search-box">
-          <input type="text" placeholder="Expertise (e.g. #plumber)" />
-          <input type="text" placeholder="City" />
-          <button>Search Now</button>
+    <!-- TopNavBar -->
+    <nav class="glass-nav">
+        <div class="nav-container">
+            <div class="logo">FachowiecNaJuz</div>
+            
+            <div class="nav-links">
+                <a class="nav-link active" href="/home">Home</a>
+                <a class="nav-link" href="/dashboard">Find Experts</a>
+                <a class="nav-link" href="/pro-dashboard">For Professionals</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="btn-sign-in">Sign In</button>
+                <button class="btn-join-pro">Join as Pro</button>
+                
+                <!-- Mobile menu button -->
+                <button class="mobile-menu-btn" aria-label="Menu">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
         </div>
-
-        <!-- TAGI -->
-        <div class="popular">
-          <span>Popular:</span>
-          <span class="tag">#electrician</span>
-          <span class="tag">#carpenter</span>
-          <span class="tag">#hvac</span>
+        
+        <!-- Mobile menu -->
+        <div class="mobile-menu">
+        <a class="mobile-link active" href="/home">Home</a>
+        <a class="mobile-link" href="/dashboard">Find Experts</a>
+        <a class="mobile-link" href="/pro-dashboard">For Professionals</a>
+            <button class="btn-sign-in mobile-btn">Sign In</button>
+            <button class="btn-join-pro mobile-btn">Join as Pro</button>
         </div>
-      </div>
+    </nav>
 
-      <div class="hero-right">
-        <img src="https://via.placeholder.com/400x500" />
-      </div>
-    </section>
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-container">
+                <!-- Hero Content -->
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        Find <span class="hero-title-accent">Verified Experts</span> in Your Area
+                    </h1>
+                    <p class="hero-description">
+                        Connect with trusted local artisans, from plumbers to electricians, all vetted for quality and reliability.
+                    </p>
+                    
+                    <!-- Search Box -->
+                    <div class="search-box">
+                        <div class="search-fields">
+                            <div class="search-field">
+                                <span class="material-symbols-outlined search-icon">construction</span>
+                                <input class="search-input" placeholder="Expertise (e.g. #plumber)" type="text"/>
+                            </div>
+                            <div class="search-field">
+                                <span class="material-symbols-outlined search-icon">location_on</span>
+                                <input class="search-input" placeholder="City" type="text"/>
+                            </div>
+                            <button class="btn-search">Search Now</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Popular Hashtags -->
+                    <div class="popular-tags">
+                        <span class="tags-label">Popular:</span>
+                        <span class="tag">#electrician</span>
+                        <span class="tag">#carpenter</span>
+                        <span class="tag">#hvac</span>
+                        <span class="tag">#painter</span>
+                    </div>
+                </div>
+                
+                <!-- Hero Image -->
+                <div class="hero-image-wrapper">
+                    <div class="hero-image-container">
+                        <img 
+                            alt="Professional electrician working" 
+                            class="hero-image" 
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPUQrKvWcYSi2qjc0XUralZD0z4Btuq3cHS0IGiELTXNRS4LO3IDYVLk5DeZuOhHOyhzPcNv6pKo8YO6K4WCXgDqCSOpXq8PPcqDxSmwJiTMxmvceelauAiARt5w5n9KzmPt0oisMD0JYffM2e_0juQL6nb9pCSeyzZgfooChF-dDxtOwLlHDYzKeoMgdjvxo4GXU1GsEWGKHWslioNlHlMBYEYES987f0pCMAIkwqMKqiDcSsvA-UCDScyuVXHulbaaw8Riofkgs"
+                        />
+                        <div class="hero-image-overlay"></div>
+                        <div class="hero-image-quote">
+                            <p class="quote-text">"Quality work delivered on time."</p>
+                            <p class="quote-author">— Marek, Certified Electrician</p>
+                        </div>
+                    </div>
+                    <!-- Decorative Elements -->
+                    <div class="decorative-circle decorative-circle-1"></div>
+                    <div class="decorative-circle decorative-circle-2"></div>
+                </div>
+            </div>
+        </section>
 
-    <!-- HOW IT WORKS -->
-    <section class="how">
-      <h2>How it Works</h2>
+        <!-- Spacer -->
+        <div class="spacer"></div>
 
-      <div class="steps">
-        <div class="step">
-          <h3>Browse Professionals</h3>
-          <p>Explore verified experts.</p>
+        <!-- How it Works Section -->
+        <section class="how-it-works">
+            <div class="section-header">
+                <span class="section-label">Simplicity First</span>
+                <h2 class="section-title">How it Works</h2>
+                <div class="section-divider"></div>
+            </div>
+            
+            <div class="steps-grid">
+                <!-- Step 1 -->
+                <div class="step-card">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">search_check</span>
+                    </div>
+                    <h3 class="step-title">Browse Vetted Professionals</h3>
+                    <p class="step-description">
+                        Explore our curated database of local artisans. Each professional undergoes a rigorous identity and skill verification process.
+                    </p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="step-card">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">chat_bubble</span>
+                    </div>
+                    <h3 class="step-title">Get Instant Quotes</h3>
+                    <p class="step-description">
+                        Describe your needs and receive transparent pricing from available experts in real-time. No hidden fees, ever.
+                    </p>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="step-card">
+                    <div class="step-icon">
+                        <span class="material-symbols-outlined">verified_user</span>
+                    </div>
+                    <h3 class="step-title">Hire with Confidence</h3>
+                    <p class="step-description">
+                        Confirm your booking and rest easy. All services performed through FachowiecNaJuz are backed by our satisfaction guarantee.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Spotlight Section -->
+        <section class="features-section">
+            <div class="features-grid">
+                <!-- Main Feature Card -->
+                <div class="feature-card feature-card-main">
+                    <div class="feature-card-content">
+                        <h3 class="feature-title">Expertise You Can Trust</h3>
+                        <p class="feature-description">
+                            We manually review every artisan's portfolio and certification. Our community rating system ensures that only the best continue to serve our customers.
+                        </p>
+                    </div>
+                    <div class="feature-avatars">
+                        <div class="avatars-group">
+                            <img alt="User" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhH4ZpaRuNvZufYCYlHqG8xIIuF_59VNUMZtgjgjr1nbCXp6pC1O0iOLawcD-lPrO-EAnCJXuEHmSVpDok8tPcY8CHZjWzccOHnBeuwtI6pEaXs7loSOPMvU-ceeHIqcbGAnUYVXjXDb2CQ8PE5ug6q3_nl345Q1bdr3AyriBiEIZwECk5R-QgflOXmdUui3spZbgNLK5pQicRYBbb6TM5R_PZbJU1CHC5syIn8V6VNgs0R4iRwF4zwDh79fLBE1hdFYxl5IrslH8"/>
+                            <img alt="User" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUKvfvlxvBR3von0DZWKKC2T5tVo0A73IeR-h3ggswXEOQSObEux486x8p1FGISY9BOPvHjPgT4lbnc4OsdGVFVwUwDLAwunkFg-XS5ityJqP2b7yynBvD0sb8RH2Xy_LdH_hxb5s7wIwDwT-toD1FZnI-WzhWwuZUfryZA9Zk16ghYFTmSNEc5o3YXGj20fQhvLoyr9fEzX2MMO-i9nLNFFShr94mb-zyDuqIBo_lDrJCHzkEY6M_34h6UCq5YNobqLOuKlHDwfQ"/>
+                            <img alt="User" class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM54_tCbt22JdiNmE2Woz0KgrFYxzfzQ56nISSd6V0Zi6KWUL-d4CAKz3H5lJX6WbWCrZAE-1A-leX1iaLKHsC-ev8UkslLKMYWvhgLG7grKHBN-Almka9PFpvppPskT3vAs15MAFae565X0e0Dzz8xEJn1sDcQtChRGOmvtxpgZk2ZsuMiUCRBInp271qmiO2FybSWROKoURucF59MGH_W7LpZ7Qj8JOGiJSxDXErE1HMN5Sdbe3Kd_m4iwjbhqtBqk85GjYr-6U"/>
+                        </div>
+                        <span class="avatars-count">+2,400 Pros in Warsaw</span>
+                    </div>
+                </div>
+                
+                <!-- Support Card -->
+                <div class="feature-card feature-card-support">
+                    <span class="material-symbols-outlined support-icon">support_agent</span>
+                    <h4 class="support-title">24/7 Priority Support</h4>
+                    <p class="support-description">Emergency pipe burst? We've got you covered round the clock.</p>
+                    <div class="support-bg-icon">
+                        <span class="material-symbols-outlined">contact_support</span>
+                    </div>
+                </div>
+                
+                <!-- Stat Card 1 -->
+                <div class="feature-card feature-card-stat feature-card-stat-1">
+                    <h4 class="stat-number">100%</h4>
+                    <p class="stat-label">Vetted Pros</p>
+                </div>
+                
+                <!-- Stat Card 2 -->
+                <div class="feature-card feature-card-stat feature-card-stat-2">
+                    <h4 class="stat-number">45min</h4>
+                    <p class="stat-label">Avg. Response</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">FachowiecNaJuz</div>
+                <p class="footer-brand-text">
+                    Connecting homeowners with the finest local artisans. Quality, reliability, and transparency in every task.
+                </p>
+            </div>
+            
+            <div class="footer-column">
+                <h5 class="footer-column-title">Company</h5>
+                <nav class="footer-nav">
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Press</a>
+                </nav>
+            </div>
+            
+            <div class="footer-column">
+                <h5 class="footer-column-title">Services</h5>
+                <nav class="footer-nav">
+                    <a href="#">Plumbing</a>
+                    <a href="#">Electrical</a>
+                    <a href="#">Handyman</a>
+                </nav>
+            </div>
+            
+            <div class="footer-column">
+                <h5 class="footer-column-title">Support</h5>
+                <nav class="footer-nav">
+                    <a href="#">Help Center</a>
+                    <a href="#">Contact Support</a>
+                    <a href="#">Privacy Policy</a>
+                </nav>
+            </div>
+            
+            <div class="footer-column">
+                <h5 class="footer-column-title">Legal</h5>
+                <nav class="footer-nav">
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </nav>
+            </div>
         </div>
-
-        <div class="step">
-          <h3>Get Quotes</h3>
-          <p>Receive transparent pricing.</p>
+        
+        <div class="footer-bottom">
+            © 2024 FachowiecNaJuz. All rights reserved.
         </div>
+    </footer>
 
-        <div class="step">
-          <h3>Hire</h3>
-          <p>Book with confidence.</p>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <?php include __DIR__ . '/partials/footer.html'; ?>
-
+    <!-- Custom JavaScript -->
+    <script src="/public/scripts/home.js"></script>
 </body>
 </html>
