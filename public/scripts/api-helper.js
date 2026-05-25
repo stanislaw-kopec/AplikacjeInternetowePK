@@ -20,7 +20,7 @@ class ApiHelper {
             const jsonData = await response.json();
 
             if (response.status === 401) {
-                // Unauthorized - show login modal
+                // Unauthorized - send the user to the login page.
                 this.handleUnauthorized();
                 throw new Error('Unauthorized');
             }
@@ -61,36 +61,33 @@ class ApiHelper {
     }
 
     static handleUnauthorized() {
-        // Open login modal
-        const modal = document.getElementById('loginModal');
-        if (modal) {
-            modal.classList.remove('modal-hidden');
-        }
+        window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
     }
 
     static isUserLoggedIn() {
         return !!localStorage.getItem('user_logged_in');
     }
 
-    static setUserLoggedIn(userId, email) {
+    static setUserLoggedIn(userId, email, role = null) {
         localStorage.setItem('user_logged_in', 'true');
         localStorage.setItem('user_id', userId);
         localStorage.setItem('user_email', email);
+        if (role) {
+            localStorage.setItem('user_role', role);
+        }
     }
 
     static clearUserSession() {
         localStorage.removeItem('user_logged_in');
         localStorage.removeItem('user_id');
         localStorage.removeItem('user_email');
+        localStorage.removeItem('user_role');
     }
 }
 
 // Global functions for modal control
 function openLoginModal() {
-    const modal = document.getElementById('loginModal');
-    if (modal) {
-        modal.classList.remove('modal-hidden');
-    }
+    window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
 }
 
 function closeLoginModal() {
@@ -124,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const response = await ApiHelper.login(email, password);
                 
                 if (response.success) {
-                    ApiHelper.setUserLoggedIn(response.user_id, response.email);
+                    ApiHelper.setUserLoggedIn(response.user_id, response.email, response.role);
                     closeLoginModal();
                     
                     // Reset form

@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const isLoggedIn = document.body.dataset.isLoggedIn === 'true';
+    const specialistId = document.body.dataset.specialistId || '1';
+
     // Portfolio filter buttons
     const filterBtns = document.querySelectorAll('.filter-btn');
     filterBtns.forEach(btn => {
@@ -25,7 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const callBtn = document.querySelector('.btn-call');
     if (callBtn) {
         callBtn.addEventListener('click', function() {
-            alert('Phone number: +48 600 000 000');
+            if (!isLoggedIn) {
+                window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+                return;
+            }
+
+            alert('Phone number: ' + (this.dataset.phone || 'not available'));
         });
     }
     
@@ -34,6 +42,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            if (!isLoggedIn) {
+                window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+                return;
+            }
+
             const btn = this.querySelector('.btn-send');
             btn.textContent = 'Sending...';
             btn.disabled = true;
@@ -77,4 +90,22 @@ document.addEventListener('DOMContentLoaded', function() {
             ? '0 4px 6px rgba(0, 0, 0, 0.07)' 
             : '0 1px 2px rgba(0, 0, 0, 0.05)';
     });
+
+    document.querySelectorAll('.btn-sign-in').forEach(button => {
+        button.addEventListener('click', function() {
+            window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+        });
+    });
+
+    const writeReviewButton = document.querySelector('.btn-write-review');
+    if (writeReviewButton) {
+        writeReviewButton.addEventListener('click', function() {
+            if (!isLoggedIn) {
+                window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+                return;
+            }
+
+            window.location.href = '/review/' + encodeURIComponent(specialistId);
+        });
+    }
 });

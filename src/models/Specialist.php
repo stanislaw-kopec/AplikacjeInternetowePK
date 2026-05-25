@@ -3,30 +3,52 @@
 class Specialist {
 
     private int $id;
+    private ?int $userId;
     private string $name;
     private string $profession;
-    private string $phone;  // NOWE POLE
+    private string $phone;
+    private string $description;
+    private string $bio;
+    private string $avatarUrl;
+    private int $experienceYears;
+    private string $responseTime;
     private ?float $averageRating;
     private ?int $reviewCount;
     private array $locations;
     private array $reviews;
+    private array $categories;
+    private array $portfolioItems;
 
     public function __construct(
         string $name,
         string $profession,
-        string $phone = '',      // NOWY PARAMETR
+        string $phone = '',
         int $id = 0,
         ?float $averageRating = null,
-        ?int $reviewCount = null
+        ?int $reviewCount = null,
+        ?int $userId = null,
+        string $description = '',
+        string $bio = '',
+        string $avatarUrl = '',
+        int $experienceYears = 0,
+        string $responseTime = '< 1 hour'
     ) {
         $this->name = $name;
         $this->profession = $profession;
-        $this->phone = $phone;   // NOWE PRZYPISANIE
+        $this->phone = $phone;
         $this->id = $id;
         $this->averageRating = $averageRating;
         $this->reviewCount = $reviewCount;
+        $this->userId = $userId;
+        $this->description = $description;
+        $this->bio = $bio;
+        $this->avatarUrl = $avatarUrl;
+        $this->experienceYears = $experienceYears;
+        $this->responseTime = $responseTime;
         $this->locations = [];
         $this->reviews = [];
+        $this->categories = [];
+        $this->portfolioItems = [];
     }
 
     public function getId(): int
@@ -39,21 +61,49 @@ class Specialist {
         return $this->name;
     }
 
+    public function getUserId(): ?int
+    {
+        return $this->userId;
+    }
+
     public function getProfession(): string
     {
         return $this->profession;
     }
 
-    // NOWA METODA
     public function getPhone(): string
     {
         return $this->phone;
     }
 
-    // NOWA METODA
     public function setPhone(string $phone): void
     {
         $this->phone = $phone;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getBio(): string
+    {
+        return $this->bio;
+    }
+
+    public function getAvatarUrl(): string
+    {
+        return $this->avatarUrl;
+    }
+
+    public function getExperienceYears(): int
+    {
+        return $this->experienceYears;
+    }
+
+    public function getResponseTime(): string
+    {
+        return $this->responseTime;
     }
 
     public function getAverageRating(): ?float
@@ -84,5 +134,25 @@ class Specialist {
     public function setReviews(array $reviews): void
     {
         $this->reviews = $reviews;
+    }
+
+    public function getCategories(): array
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(array $categories): void
+    {
+        $this->categories = $categories;
+    }
+
+    public function getPortfolioItems(): array
+    {
+        return $this->portfolioItems;
+    }
+
+    public function setPortfolioItems(array $portfolioItems): void
+    {
+        $this->portfolioItems = $portfolioItems;
     }
 }

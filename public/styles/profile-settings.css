@@ -611,6 +611,9 @@ main {
 }
 
 .btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.625rem 1.5rem;
     background: none;
     border: none;
@@ -620,6 +623,7 @@ main {
     cursor: pointer;
     font-family: var(--font-body);
     transition: color 0.3s ease;
+    text-decoration: none;
 }
 
 .btn-cancel:hover {

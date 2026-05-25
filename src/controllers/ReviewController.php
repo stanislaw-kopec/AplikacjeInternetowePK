@@ -8,9 +8,11 @@ class ReviewController extends AppController {
 
     public function create($specialistId = null)
     {
+        $this->requireRole('User');
+
         if (!$this->isPost()) {
             echo "
-                <form method='POST' action='/review/create/{$specialistId}'>
+                <form method='POST' action='/review/{$specialistId}'>
                     <input type='hidden' name='specialist_id' value='{$specialistId}'>
                     <input name='author' placeholder='Your name' required>
                     <select name='rating' required>
@@ -27,12 +29,13 @@ class ReviewController extends AppController {
             return;
         }
 
-        $specialistId = $_POST['specialist_id'];
-        $author = $_POST['author'];
+        $specialistId = (int)$_POST['specialist_id'];
+        $user = $this->getCurrentUser();
+        $author = $_POST['author'] ?: $user->getEmail();
         $rating = (int)$_POST['rating'];
         $comment = $_POST['comment'] ?? '';
 
-        $review = new Review($specialistId, $author, $rating, $comment);
+        $review = new Review($specialistId, $author, $rating, $comment, 0, $user->getId());
         
         $repository = new ReviewRepository();
         $repository->createReview($review);

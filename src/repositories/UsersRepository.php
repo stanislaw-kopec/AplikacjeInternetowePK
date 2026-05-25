@@ -35,7 +35,8 @@ class UsersRepository extends Repository {
         return new User(
             $user['email'],
             $user['password'],
-            $user['id']
+            $user['id'],
+            $user['role'] ?? 'User'
         );
     }
 
@@ -58,23 +59,39 @@ class UsersRepository extends Repository {
         return new User(
             $user['email'],
             $user['password'],
-            $user['id']
+            $user['id'],
+            $user['role'] ?? 'User'
         );
     }
 
-    public function createUser(User $user): void
+    public function createUser(User $user): int
     {
+        $this->ensureRoleColumnExists();
+
         $query = $this->database->connect()->prepare(
-            "INSERT INTO users (email, password)
-             VALUES (:email, :password)"
+            "INSERT INTO users (email, password, role)
+             VALUES (:email, :password, :role)
+             RETURNING id"
         );
 
         $email = $user->getEmail();
         $password = $user->getPassword();
+        $role = $user->getRole();
 
         $query->bindParam(':email', $email);
         $query->bindParam(':password', $password);
+        $query->bindParam(':role', $role);
 
         $query->execute();
+
+        return (int)$query->fetchColumn();
+    }
+
+    private function ensureRoleColumnExists(): void
+    {
+        $this->database->connect()->exec(
+            "ALTER TABLE users
+             ADD COLUMN IF NOT EXISTS role VARCHAR(50) DEFAULT 'User' NOT NULL"
+        );
     }
 }

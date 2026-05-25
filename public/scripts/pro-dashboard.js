@@ -23,14 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // View Public Page button
-    const viewBtn = document.querySelector('.btn-primary');
-    if (viewBtn) {
-        viewBtn.addEventListener('click', function() {
-            window.location.href = '/expert-detail';
-        });
-    }
-    
     // Chart select
     const chartSelect = document.querySelector('.chart-select');
     if (chartSelect) {

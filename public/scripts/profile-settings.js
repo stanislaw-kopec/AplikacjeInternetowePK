@@ -1,31 +1,4 @@
-// Mobile menu toggle
 document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.toggle('open');
-            
-            const icon = mobileMenuBtn.querySelector('.material-symbols-outlined');
-            if (mobileMenu.classList.contains('open')) {
-                icon.textContent = 'close';
-            } else {
-                icon.textContent = 'menu';
-            }
-        });
-    }
-    
-    // Close mobile menu when clicking on a link
-    const mobileLinks = document.querySelectorAll('.mobile-menu a');
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            mobileMenu.classList.remove('open');
-            const icon = mobileMenuBtn.querySelector('.material-symbols-outlined');
-            if (icon) icon.textContent = 'menu';
-        });
-    });
-
     // Tab switching functionality
     const tabs = document.querySelectorAll('.tab');
     const tabPanels = document.querySelectorAll('.tab-panel');
@@ -55,43 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Save button simulation
-    const saveButton = document.querySelector('.btn-save');
-    if (saveButton) {
-        saveButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Show saving state
-            const originalText = saveButton.textContent;
-            saveButton.textContent = 'Saving...';
-            saveButton.disabled = true;
-            saveButton.style.opacity = '0.7';
-            
-            // Simulate save
-            setTimeout(() => {
-                saveButton.textContent = 'Saved!';
-                saveButton.style.background = '#16a34a';
-                
-                setTimeout(() => {
-                    saveButton.textContent = originalText;
-                    saveButton.disabled = false;
-                    saveButton.style.opacity = '1';
-                    saveButton.style.background = '';
-                }, 2000);
-            }, 1000);
-        });
-    }
-    
-    // Cancel button
-    const cancelButton = document.querySelector('.btn-cancel');
-    if (cancelButton) {
-        cancelButton.addEventListener('click', function() {
-            if (confirm('Are you sure you want to discard changes?')) {
-                window.location.reload();
-            }
-        });
-    }
-    
     // Add photo button
     const addPhotoBtn = document.querySelector('.btn-add-photo');
     if (addPhotoBtn) {
@@ -116,10 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
     sidebarLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             if (this.classList.contains('logout')) {
-                e.preventDefault();
                 if (confirm('Are you sure you want to log out?')) {
-                    // Handle logout
+                    return;
                 }
+
+                e.preventDefault();
                 return;
             }
             

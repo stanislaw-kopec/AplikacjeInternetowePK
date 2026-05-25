@@ -8,6 +8,7 @@ require_once 'src/controllers/LocationController.php';
 require_once 'src/controllers/ApiSecurityController.php';
 require_once 'src/controllers/ApiSpecialistController.php';
 require_once 'src/controllers/ApiLocationController.php';
+require_once 'src/controllers/ReviewController.php';
 
 class Routing {
 
@@ -15,6 +16,10 @@ class Routing {
         "login" => [
             "controller" => "SecurityController",
             "action" => "login"
+        ],
+        "logout" => [
+            "controller" => "SecurityController",
+            "action" => "logout"
         ],
         "dashboard" => [
             "controller" => "DashboardController",
@@ -63,6 +68,10 @@ class Routing {
         "assign-location" => [
             "controller" => "SpecialistController",
             "action" => "assignLocation"
+        ],
+        "review" => [
+            "controller" => "ReviewController",
+            "action" => "create"
         ]
     ];
 
@@ -78,6 +87,10 @@ class Routing {
         "api/specialists" => [
             "controller" => "ApiSpecialistController",
             "action" => "list"
+        ],
+        "api/specialist" => [
+            "controller" => "ApiSpecialistController",
+            "action" => "getById"
         ],
         "api/locations" => [
             "controller" => "ApiLocationController",

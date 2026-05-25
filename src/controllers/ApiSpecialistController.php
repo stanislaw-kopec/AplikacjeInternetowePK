@@ -18,7 +18,7 @@ class ApiSpecialistController extends ApiController {
 
         $this->jsonResponse([
             'success' => true,
-            'data' => $specialists
+            'data' => array_map([$this, 'specialistToArray'], $specialists)
         ]);
     }
 
@@ -44,8 +44,8 @@ class ApiSpecialistController extends ApiController {
 
         $this->jsonResponse([
             'success' => true,
-            'data' => $specialist,
-            'reviews' => $reviews
+            'data' => $this->specialistToArray($specialist),
+            'reviews' => array_map([$this, 'reviewToArray'], $reviews)
         ]);
     }
 
@@ -66,7 +66,16 @@ class ApiSpecialistController extends ApiController {
         $specialist = new Specialist(
             $input['name'],
             $input['profession'],
-            $input['phone'] ?? ''
+            $input['phone'] ?? '',
+            0,
+            null,
+            null,
+            $_SESSION['user_id'],
+            $input['description'] ?? '',
+            $input['bio'] ?? '',
+            $input['avatar_url'] ?? '',
+            (int)($input['experience_years'] ?? 0),
+            $input['response_time'] ?? '< 1 hour'
         );
 
         $repository = new SpecialistRepository();
@@ -76,5 +85,43 @@ class ApiSpecialistController extends ApiController {
             'success' => true,
             'message' => 'Specialist created successfully'
         ], 201);
+    }
+
+    private function specialistToArray(Specialist $specialist): array
+    {
+        return [
+            'id' => $specialist->getId(),
+            'name' => $specialist->getName(),
+            'profession' => $specialist->getProfession(),
+            'phone' => $specialist->getPhone(),
+            'description' => $specialist->getDescription(),
+            'bio' => $specialist->getBio(),
+            'avatar_url' => $specialist->getAvatarUrl(),
+            'experience_years' => $specialist->getExperienceYears(),
+            'response_time' => $specialist->getResponseTime(),
+            'average_rating' => $specialist->getAverageRating(),
+            'review_count' => $specialist->getReviewCount(),
+            'locations' => array_map(fn($location) => [
+                'id' => $location->getId(),
+                'city' => $location->getCity()
+            ], $specialist->getLocations()),
+            'categories' => array_map(fn($category) => [
+                'id' => $category->getId(),
+                'name' => $category->getName()
+            ], $specialist->getCategories())
+        ];
+    }
+
+    private function reviewToArray(Review $review): array
+    {
+        return [
+            'id' => $review->getId(),
+            'specialist_id' => $review->getSpecialistId(),
+            'user_id' => $review->getUserId(),
+            'author' => $review->getAuthor(),
+            'rating' => $review->getRating(),
+            'comment' => $review->getComment(),
+            'created_at' => $review->getCreatedAt()
+        ];
     }
 }

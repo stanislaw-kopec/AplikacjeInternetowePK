@@ -3,72 +3,52 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Expert Profile - FachowiecNaJuz</title>
-    
-    <!-- Fonts -->
+    <title><?= htmlspecialchars($specialist->getName()) ?> - FachowiecNaJuz</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/public/styles/expert-detail.css"/>
-</head>
-<body>
-    <!-- Top Navigation -->
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="nav-left">
-                <span class="logo">FachowiecNaJuz</span>
-                <div class="nav-links">
-                    <a href="/home">Home</a>
-                    <a href="/dashboard" class="active">Find Experts</a>
-                    <a href="/pro-dashboard">For Professionals</a>
-                </div>
-            </div>
-            <div class="nav-actions">
-                <button class="btn-sign-in">Sign In</button>
-                <button class="btn-join-pro">Join as Pro</button>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Main Content -->
+    <link rel="stylesheet" href="/public/styles/expert-detail.css"/>
+    <link rel="stylesheet" href="/public/styles/partials/navbar.css"/>
+    <link rel="stylesheet" href="/public/styles/partials/footer.css"/>
+</head>
+<body data-is-logged-in="<?= $isLoggedIn ? 'true' : 'false' ?>" data-specialist-id="<?= htmlspecialchars((string)$specialistId) ?>">
+    <?php include 'public/views/partials/navbar.html'; ?>
+
     <main>
         <div class="content-grid">
-            <!-- Left Side -->
             <aside class="profile-sidebar">
-                <!-- Profile Header Card -->
                 <div class="profile-card">
                     <div class="profile-image-wrapper">
-                        <img alt="Professional Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9CH69ppbdMWaAS89pE9xlYEhKh_INS7ruVHyPPsrGz0m_-Bpm5BIvfqbwPBmEh_o4WinqxQF14Gg0xZW9iUqDyPSF8fbdhLBW2fLYj5oGxQPGs8DIDWdY8XJrHKwlKuMkq5paPrjB5pd46nDQGNwr8YhbBZQKUJ2KNO0RNlwD6aR-xrat3WJJ7Cni_fIEHpYsCfL4BislqlA44Fd-Ud-GCTqg72PrIgfFAKn5_c6mNd57ZFrxH9Vq7xYVt_KCzoQQb8hDUJC93uc"/>
+                        <img alt="<?= htmlspecialchars($specialist->getName()) ?>" src="<?= htmlspecialchars($specialist->getAvatarUrl() ?: 'https://placehold.co/480x480?text=Pro') ?>"/>
                         <div class="profile-image-overlay"></div>
                     </div>
                     <div class="profile-details">
-                        <h1>Andrzej Kowalski</h1>
+                        <h1><?= htmlspecialchars($specialist->getName()) ?></h1>
                         <div class="profile-meta">
                             <span class="material-symbols-outlined star" style="font-variation-settings: 'FILL' 1;">star</span>
-                            <span class="rating">4.9</span>
-                            <span>(124 reviews)</span>
+                            <span class="rating"><?= htmlspecialchars((string)($specialist->getAverageRating() ?? 'New')) ?></span>
+                            <span>(<?= htmlspecialchars((string)($specialist->getReviewCount() ?? 0)) ?> reviews)</span>
                             <span class="separator">•</span>
-                            <span>Expert Installer</span>
+                            <span><?= htmlspecialchars($specialist->getProfession()) ?></span>
                         </div>
-                        <button class="btn-call">
+                        <button class="btn-call" data-phone="<?= htmlspecialchars($specialist->getPhone()) ?>">
                             <span class="material-symbols-outlined">call</span>
                             Show Phone Number
                         </button>
                         <div class="stats-grid">
                             <div class="stat-item">
                                 <p class="stat-label">Experience</p>
-                                <p class="stat-value">12+ Years</p>
+                                <p class="stat-value"><?= htmlspecialchars((string)$specialist->getExperienceYears()) ?>+ Years</p>
                             </div>
                             <div class="stat-item">
                                 <p class="stat-label">Response</p>
-                                <p class="stat-value">&lt; 1 hour</p>
+                                <p class="stat-value"><?= htmlspecialchars($specialist->getResponseTime()) ?></p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Contact Form -->
                 <form class="contact-form">
                     <h3>Send a Message</h3>
                     <div class="form-group">
@@ -78,9 +58,10 @@
                     <div class="form-group">
                         <label>Inquiry Type</label>
                         <select>
-                            <option>Installation</option>
-                            <option>General Repair</option>
-                            <option>Renovation</option>
+                            <?php foreach ($specialist->getCategories() as $category): ?>
+                                <option><?= htmlspecialchars($category->getName()) ?></option>
+                            <?php endforeach; ?>
+                            <option>General Inquiry</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -90,77 +71,41 @@
                     <button type="submit" class="btn-send">Send Inquiry</button>
                 </form>
 
-                <!-- Map Widget -->
                 <div class="map-widget">
-                    <div class="map-container">
-                        <img alt="Service Area Map" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHTKyGNYLdcIF0PddM27JJClt3k-XkAqAYmrSNBS_sp52Fj8SfEx8ObWv1fVO0wNXcY6iN-1gtIT1sQ4Ui-N33s2rdV05SREfEv9s6lJabjGfzD1oqcE2dY7mHWBEUcAefNi8gmKwgJsvIMHcQKQX--1FzvI1zRM8Jd3VlYoJ7m3oIM-FngVAg0UptMINYvFSL3FFSONvWlbc_45WlFuRR9zU6Qq4XnGk2xfm7S3GZhoLq-xeeF93IR5Lfym5MK-GGQx5_pwKFXAU"/>
-                        <div class="map-pin">
-                            <div class="map-pin-inner">
-                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">location_on</span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="map-info">
-                        <p>Serving Warsaw & Surrounding Areas</p>
-                        <p>Available for on-site visits within 30km</p>
+                        <p>Serving <?= htmlspecialchars(implode(', ', array_map(fn($location) => $location->getCity(), $specialist->getLocations()))) ?: 'selected areas' ?></p>
+                        <p>Available for on-site visits.</p>
                     </div>
                 </div>
             </aside>
 
-            <!-- Right Side -->
             <section class="profile-content">
-                <!-- About Me -->
                 <div class="about-section">
                     <h2>About Me</h2>
                     <div class="about-text">
-                        <p>With over a decade of hands-on experience in high-end residential installations and complex repairs, I pride myself on delivering meticulous craftsmanship that stands the test of time. My approach is rooted in the "Curated Artisan" philosophy—where every joint, every connection, and every finish is treated as a piece of functional art.</p>
-                        <p>I specialize in modern bathroom renovations, smart home electrical installations, and emergency plumbing. I believe that professional service is about more than just tools; it's about clear communication, punctuality, and respect for your living space.</p>
+                        <p><?= nl2br(htmlspecialchars($specialist->getBio() ?: $specialist->getDescription())) ?></p>
                     </div>
                     <div class="skills-tags">
-                        <span class="skill-tag">Certified Electrician</span>
-                        <span class="skill-tag">Plumbing Expert</span>
-                        <span class="skill-tag">Master Tiler</span>
+                        <?php foreach ($specialist->getCategories() as $category): ?>
+                            <span class="skill-tag"><?= htmlspecialchars($category->getName()) ?></span>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
-                <!-- Portfolio Gallery -->
                 <div class="portfolio-section">
                     <h2>Work Portfolio</h2>
-                    <div class="portfolio-filters">
-                        <button class="filter-btn active">All</button>
-                        <button class="filter-btn">Installations</button>
-                        <button class="filter-btn">Repairs</button>
-                        <button class="filter-btn">Renovations</button>
-                    </div>
                     <div class="portfolio-grid">
-                        <div class="portfolio-item">
-                            <img alt="Bathroom Renovation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrNcP9TfqmzqAQYkwkl9lLZmj_qfEgimHrG4n4VUVL9upNoT3r3nbS94Fh-VgHpNQpEyywI4l0_jnbWPvhq3hdiNUg7y4z5OS5FnaMODfmRyOUt0ra_XIQxKOe1iwrF9fGqV49kPI07pMMtB5ogrSGY6m87jBOIfSny0FjMYr8Bqk9qodkuX6fk3XTB7s3wvjWCxAtUcBuO7uHJhwIIToicQFmUySAYeQjULgBz4BVP0fbLWM1FVrIRHfpI2tFixnzKdBS8HLNvkE"/>
-                            <div class="portfolio-overlay">
-                                <span>Bathroom Renovation</span>
+                        <?php foreach ($specialist->getPortfolioItems() as $item): ?>
+                            <div class="portfolio-item">
+                                <img alt="<?= htmlspecialchars($item->getTitle()) ?>" src="<?= htmlspecialchars($item->getImageUrl()) ?>"/>
+                                <div class="portfolio-overlay">
+                                    <span><?= htmlspecialchars($item->getTitle()) ?></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="portfolio-item">
-                            <img alt="Kitchen Installation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8GC3mRlz85FzMCy3NDLmy04mAIMPfvAjaaOfnoV9Jduc_-wGVtxVm4-axnZxUoZR3yi8u4L21cv_s32NMSF03rCTS5KRKzsQ2TM-nDBAnkbgpaXzl2wz2uUsicviGp3wEDoA1h6yumMhqG8LfNQWEkVZFH5jlcKqRI4oBEBe0O91W86NIOFp2Zrsrn1-p4Fch2WTrJuABaJRHclUpTj1IF1yz0QfI1oN_umYheHDmxy5BEC37LjxbpeOxwbTy9MwXPgVMyf3PZ2g"/>
-                            <div class="portfolio-overlay">
-                                <span>Smart Kitchen Setup</span>
-                            </div>
-                        </div>
-                        <div class="portfolio-item">
-                            <img alt="Electrical Panel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7CtfErB0_GbLkSaXj3QKDy_1k0ak6O01w4FAAzLf2ymXA4BImJj_qUb6pem2dIA_iDrpSDdFj3eZPv4COEwvVGbx6TAiRxHNH3e16xBCy2fEPPkLjfhfG2kFKJfqAN5fVkmROLnrx5D7ricNmhMHGdQOU6y3qBlgiJMTbDwRXHMJmEZblMV8Tn_JSZ4poIFgr4QJpp90EO_AbFvTbibLRE7V-0M9JC1feiusuydhtnQgDRu1eMS4P4zLREl_FTfXm5yjQzJrk7qk"/>
-                            <div class="portfolio-overlay">
-                                <span>System Upgrade</span>
-                            </div>
-                        </div>
-                        <div class="portfolio-item">
-                            <img alt="Flooring Detail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC73NwjmQ-Z90Fc9-Qgu1HB2bltN-dj_AJ1QH0i_cTFfZK3syZ-6yl43WPgXeWntYErUWaTP_qtoluYkZr8fpSlh5jnGMWgTw7FwJctWfx4huhlGjLj_Kb-IZX4pKVi-rL3PKuL0uDpFTLjIHuDGYuhbG4k6Nq2HXJ9_JsBvjaU2gjZFEAMDsamNq3hOK2mChXJz84x8J-XKa0GGtmK3QjV8fHsi16yxvQAu9_PfBWauTi2ST83XWGv17ehWj5cajVQcxFmxqtIb88"/>
-                            <div class="portfolio-overlay">
-                                <span>Hardwood Finish</span>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
-                <!-- Reviews Section -->
                 <div class="reviews-section">
                     <div class="reviews-header">
                         <h2>Client Feedback</h2>
@@ -169,105 +114,31 @@
                         </button>
                     </div>
                     <div class="reviews-list">
-                        <!-- Review 1 -->
-                        <div class="review-card featured">
-                            <div class="review-header">
-                                <div>
-                                    <p class="review-author">Marek Wiśniewski</p>
-                                    <p class="review-date">October 12, 2023</p>
+                        <?php foreach (($reviews ?? []) as $review): ?>
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div>
+                                        <p class="review-author"><?= htmlspecialchars($review->getAuthor()) ?></p>
+                                        <p class="review-date"><?= htmlspecialchars($review->getCreatedAt() ? date('F j, Y', strtotime($review->getCreatedAt())) : '') ?></p>
+                                    </div>
+                                    <div class="review-stars">
+                                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' <?= $i <= $review->getRating() ? '1' : '0' ?>;">star</span>
+                                        <?php endfor; ?>
+                                    </div>
                                 </div>
-                                <div class="review-stars">
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                </div>
+                                <p class="review-text">"<?= htmlspecialchars($review->getComment()) ?>"</p>
                             </div>
-                            <p class="review-text">"Andrzej did an incredible job with our bathroom renovation. His attention to detail is second to none. He kept the site clean and finished exactly on schedule. Highly recommended for any high-quality work."</p>
-                        </div>
-
-                        <!-- Review 2 -->
-                        <div class="review-card">
-                            <div class="review-header">
-                                <div>
-                                    <p class="review-author">Anna Nowak</p>
-                                    <p class="review-date">September 28, 2023</p>
-                                </div>
-                                <div class="review-stars">
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined">star</span>
-                                </div>
-                            </div>
-                            <p class="review-text">"Very professional and knowledgeable. He solved a recurring plumbing issue that three other experts couldn't fix. Prices are fair for the level of expertise provided."</p>
-                        </div>
-
-                        <!-- Review 3 -->
-                        <div class="review-card">
-                            <div class="review-header">
-                                <div>
-                                    <p class="review-author">Jan Kowalski</p>
-                                    <p class="review-date">August 15, 2023</p>
-                                </div>
-                                <div class="review-stars">
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                </div>
-                            </div>
-                            <p class="review-text">"Andrzej installed a complete smart lighting system in our home. He was punctual, explained everything clearly, and the final result exceeded our expectations."</p>
-                        </div>
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="pagination">
-                        <button class="pagination-btn">
-                            <span class="material-symbols-outlined">chevron_left</span>
-                        </button>
-                        <span class="pagination-current">1 / 5</span>
-                        <button class="pagination-btn">
-                            <span class="material-symbols-outlined">chevron_right</span>
-                        </button>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </section>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <div class="footer-logo">FachowiecNaJuz</div>
-                <p>Connecting elite professionals with discerning homeowners. Quality you can trust, craft you can admire.</p>
-            </div>
-            <div class="footer-column">
-                <h4>Platform</h4>
-                <div>
-                    <a href="#">About Us</a>
-                    <a href="#">Careers</a>
-                    <a href="#">Help Center</a>
-                </div>
-            </div>
-            <div class="footer-column">
-                <h4>Support</h4>
-                <div>
-                    <a href="#">Contact Support</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Privacy Policy</a>
-                </div>
-            </div>
-            <div class="footer-copyright">
-                <p>© 2024 FachowiecNaJuz. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <?php include 'public/views/partials/footer.html'; ?>
 
+    <script src="/public/scripts/partials/navbar.js"></script>
     <script src="/public/scripts/expert-detail.js"></script>
 </body>
 </html>

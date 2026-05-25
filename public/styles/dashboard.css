@@ -132,11 +132,15 @@ body {
 }
 
 .btn-sign-in {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     color: var(--primary-container);
     font-weight: 500;
     background: none;
     border: none;
     cursor: pointer;
+    text-decoration: none;
     padding: 0.5rem 1rem;
     font-size: 0.9375rem;
     font-family: var(--font-body);
@@ -475,6 +479,9 @@ main {
 }
 
 .btn-view-profile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     background: var(--surface-container-low);
     color: var(--primary);
@@ -486,6 +493,7 @@ main {
     font-family: var(--font-body);
     font-size: 0.875rem;
     transition: background-color 0.3s ease, color 0.3s ease;
+    text-decoration: none;
 }
 
 .btn-view-profile:hover {

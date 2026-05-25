@@ -21,7 +21,9 @@ class ReviewRepository extends Repository {
                 $review['author'],
                 $review['rating'],
                 $review['comment'],
-                $review['id']
+                $review['id'],
+                $review['user_id'] ?? null,
+                $review['created_at'] ?? null
             );
         }
 
@@ -31,16 +33,18 @@ class ReviewRepository extends Repository {
     public function createReview(Review $review): void
     {
         $query = $this->database->connect()->prepare(
-            "INSERT INTO reviews (specialist_id, author, rating, comment) 
-             VALUES (:specialist_id, :author, :rating, :comment)"
+            "INSERT INTO reviews (specialist_id, user_id, author, rating, comment) 
+             VALUES (:specialist_id, :user_id, :author, :rating, :comment)"
         );
 
         $specialistId = $review->getSpecialistId();
+        $userId = $review->getUserId();
         $author = $review->getAuthor();
         $rating = $review->getRating();
         $comment = $review->getComment();
 
         $query->bindParam(':specialist_id', $specialistId, PDO::PARAM_INT);
+        $query->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $query->bindParam(':author', $author, PDO::PARAM_STR);
         $query->bindParam(':rating', $rating, PDO::PARAM_INT);
         $query->bindParam(':comment', $comment, PDO::PARAM_STR);

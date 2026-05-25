@@ -19,32 +19,47 @@ class SpecialistController extends AppController {
 
     public function create()
     {
+        $this->requireRole('Specialist');
+
+        $repository = new SpecialistRepository();
+        $existingSpecialist = $repository->getSpecialistByUserId($_SESSION['user_id']);
+
+        if ($existingSpecialist) {
+            header("Location: /expert-detail/" . $existingSpecialist->getId());
+            return;
+        }
+
         if (!$this->isPost()) {
             echo "
                 <form method='POST'>
                     <input name='name' placeholder='name' required>
                     <input name='profession' placeholder='profession' required>
-                    <input name='phone' placeholder='phone number' required>  <!-- NOWE POLE -->
+                    <input name='phone' placeholder='phone number' required>
                     <button type='submit'>create</button>
                 </form>
             ";
             return;
         }
 
-        $name = $_POST['name'];
-        $profession = $_POST['profession'];
-        $phone = $_POST['phone'] ?? '';  // POBIERZ TELEFON
-        
-        $specialist = new Specialist($name, $profession, $phone);
-        
-        $repository = new SpecialistRepository();
-        $repository->createSpecialist($specialist);
-        
-        header("Location: /specialists");
+        $specialist = new Specialist(
+            $_POST['name'],
+            $_POST['profession'],
+            $_POST['phone'] ?? '',
+            0,
+            null,
+            null,
+            $_SESSION['user_id']
+        );
+
+        $id = $repository->createSpecialist($specialist);
+
+        header("Location: /expert-detail/{$id}");
     }
 
     public function assignLocation()
     {
+        $this->requireRole('Specialist');
+
         if (!$this->isPost()) {
             echo "
                 <form method='POST'>
@@ -56,32 +71,13 @@ class SpecialistController extends AppController {
             return;
         }
 
-        $specialistId = $_POST['specialist_id'];
-        $locationId = $_POST['location_id'];
-        
         $repository = new SpecialistRepository();
-        $repository->assignLocation($specialistId, $locationId);
-        
+        $repository->assignLocation((int)$_POST['specialist_id'], (int)$_POST['location_id']);
+
         echo "Location assigned successfully!";
     }
 
     public function expertDetail($id = null)
-    {
-        // Tymczasowo - wyświetl statyczną stronę
-        return $this->render("expert-detail");
-        
-        // TODO: Dynamiczne pobieranie z bazy
-        // if ($id === null) {
-        //     header("Location: /dashboard");
-        //     return;
-        // }
-        // 
-        // $repository = new SpecialistRepository();
-        // $specialist = $repository->getSpecialistById((int)$id);
-        // return $this->render("expert-detail", ["specialist" => $specialist]);
-    }
-
-    /*public function expertDetail($id = null)
     {
         if ($id === null) {
             header("Location: /dashboard");
@@ -90,36 +86,28 @@ class SpecialistController extends AppController {
 
         $specialistRepository = new SpecialistRepository();
         $reviewRepository = new ReviewRepository();
-        $locationRepository = new LocationRepository();
-
         $specialist = $specialistRepository->getSpecialistById((int)$id);
-        
+
         if (!$specialist) {
-            header("Location: /404");
+            include 'public/views/404.html';
             return;
         }
 
-        $reviews = $reviewRepository->getReviewsBySpecialistId((int)$id);
-        $locations = $locationRepository->getLocationsForSpecialist((int)$id);
-
         return $this->render("expert-detail", [
+            "specialistId" => (int)$id,
             "specialist" => $specialist,
-            "reviews" => $reviews,
-            "locations" => $locations
+            "reviews" => $reviewRepository->getReviewsBySpecialistId((int)$id)
         ]);
-    }*/
+    }
 
     public function dashboard()
     {
         $specialistRepository = new SpecialistRepository();
         $locationRepository = new LocationRepository();
 
-        $specialists = $specialistRepository->getAllSpecialistsWithRating();
-        $locations = $locationRepository->getAllLocations();
-
         return $this->render("dashboard", [
-            "specialists" => $specialists,
-            "locations" => $locations
+            "specialists" => $specialistRepository->getAllSpecialistsWithRating(),
+            "locations" => $locationRepository->getAllLocations()
         ]);
     }
 }

@@ -33,12 +33,14 @@ class ApiSecurityController extends ApiController {
         }
 
         $_SESSION['user_id'] = $user->getId();
+        $_SESSION['user_role'] = $user->getRole();
 
         $this->jsonResponse([
             'success' => true,
             'message' => 'Logged in successfully',
             'user_id' => $user->getId(),
-            'email' => $user->getEmail()
+            'email' => $user->getEmail(),
+            'role' => $user->getRole()
         ]);
     }
 

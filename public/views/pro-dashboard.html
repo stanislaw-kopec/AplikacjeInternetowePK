@@ -4,44 +4,22 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Professional Dashboard - FachowiecNaJuz</title>
-    
-    <!-- Fonts -->
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
-    <!-- Custom CSS -->
+
     <link rel="stylesheet" href="/public/styles/pro-dashboard.css"/>
+    <link rel="stylesheet" href="/public/styles/partials/navbar.css"/>
+    <link rel="stylesheet" href="/public/styles/partials/footer.css"/>
 </head>
 <body>
-    <!-- Top Navigation -->
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="nav-left">
-                <span class="logo">FachowiecNaJuz</span>
-                <div class="nav-links">
-                    <a href="/home">Home</a>
-                    <a href="/dashboard">Find Experts</a>
-                    <a href="/pro-dashboard" class="active">For Professionals</a>
-                </div>
-            </div>
-            <div class="nav-actions">
-                <button class="btn-notifications">
-                    <span class="material-symbols-outlined">notifications</span>
-                </button>
-                <div class="profile-avatar">
-                    <img alt="Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl-nZb9XlvTonYQ8oS0Orb2t4A9K71eED36D4xtilMBrh25aBHugnqS7cetO_ll-8lAGvZ8Jr0b660X7WAVjed_nFU4p_6K72bEUiwJfenUfPT11zIPsInHbaplBXYp_opg9S8lZEWbO5lSMPcAsRGf7gD1C2sDtWUKKk_ywiEYQCQNq5oNzLJXwD9sRZZKIJSygiL_qsnz4udFjehML6vLMzdsyNTnx8y3Ee0Tx0jhbBaHzf6n7NON3m3uHaEPLG0nfPKi7wDELw"/>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php include 'public/views/partials/navbar.html'; ?>
 
-    <!-- Main Content -->
     <main>
-        <!-- Dashboard Header -->
         <header class="dashboard-header">
             <div class="dashboard-title">
                 <h1>Professional Dashboard</h1>
-                <p>Welcome back, Aleksander. Here's your performance summary for this week.</p>
+                <p>Welcome back, <?= htmlspecialchars($specialist ? $specialist->getName() : ($currentUserEmail ?? 'Specialist')) ?>.</p>
             </div>
             <div class="dashboard-actions">
                 <button class="btn-outline">
@@ -52,204 +30,111 @@
                     <span class="material-symbols-outlined">edit</span>
                     Edit Profile
                 </button>
-                <button class="btn-primary">
-                    <span class="material-symbols-outlined">visibility</span>
-                    View Public Page
-                </button>
+                <?php if ($specialist): ?>
+                    <a class="btn-primary" href="/expert-detail/<?= $specialist->getId() ?>">
+                        <span class="material-symbols-outlined">visibility</span>
+                        View Public Page
+                    </a>
+                <?php endif; ?>
             </div>
         </header>
 
-        <!-- Dashboard Grid -->
-        <div class="dashboard-grid">
-            <!-- Left & Center Column -->
-            <div class="dashboard-main">
-                <!-- Stats Row -->
-                <div class="stats-row">
-                    <!-- Unlocks Card -->
-                    <div class="stats-card-unlocks">
-                        <div>
-                            <span class="stats-label">Total Number Unlocks</span>
-                            <div class="stats-value-row">
-                                <span class="stats-number">152</span>
-                                <span class="stats-change">
-                                    <span class="material-symbols-outlined">trending_up</span>
-                                    +12%
-                                </span>
-                            </div>
-                        </div>
-                        <p class="stats-note">Significant growth in premium leads since last Monday.</p>
-                    </div>
-
-                    <!-- Chart Card -->
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <div class="chart-title">
-                                <h3>Weekly Profile Views</h3>
-                                <p>Apr 14 — Apr 21</p>
-                            </div>
-                            <select class="chart-select">
-                                <option>This Week</option>
-                                <option>Last Week</option>
-                            </select>
-                        </div>
-                        <div class="chart-visual">
-                            <svg class="chart-svg" viewBox="0 0 400 100" preserveAspectRatio="none">
-                                <path class="chart-line" d="M0,80 Q50,70 80,85 T160,40 T240,60 T320,20 T400,30"/>
-                                <path class="chart-fill" d="M0,80 Q50,70 80,85 T160,40 T240,60 T320,20 T400,30 V100 H0 Z"/>
-                                <circle class="chart-dot" cx="80" cy="85"/>
-                                <circle class="chart-dot" cx="160" cy="40"/>
-                                <circle class="chart-dot" cx="320" cy="20"/>
-                            </svg>
-                        </div>
-                        <div class="chart-labels">
-                            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bento Row -->
-                <div class="bento-row">
-                    <!-- Premium Card -->
-                    <div class="premium-card">
-                        <div class="premium-icon">
-                            <span class="material-symbols-outlined">workspace_premium</span>
-                        </div>
-                        <h4>Premium Visibility</h4>
-                        <p>Your profile is currently ranking in the top 5% of designers in your region. Maintain your response time to stay featured.</p>
-                        <button class="btn-upgrade">Upgrade to Platinum</button>
-                    </div>
-
-                    <!-- Trust Score Card -->
-                    <div class="trust-card">
-                        <div class="trust-header">
-                            <div class="trust-icon">
-                                <span class="material-symbols-outlined">verified_user</span>
-                            </div>
-                            <h4>Trust Score: 98/100</h4>
-                        </div>
-                        <div class="trust-bar-bg">
-                            <div class="trust-bar-fill" style="width: 98%;"></div>
-                        </div>
-                        <p>Your high rating and completed identity verification place you ahead of most professionals.</p>
-                    </div>
-                </div>
+        <?php if (!$specialist): ?>
+            <div class="premium-card">
+                <h4>Create your professional profile</h4>
+                <p>Your account is marked as Specialist, but no public specialist profile is connected yet.</p>
+                <a class="btn-upgrade" href="/create-specialist">Create Profile</a>
             </div>
+        <?php else: ?>
+            <div class="dashboard-grid">
+                <div class="dashboard-main">
+                    <div class="stats-row">
+                        <div class="stats-card-unlocks">
+                            <div>
+                                <span class="stats-label">Reviews</span>
+                                <div class="stats-value-row">
+                                    <span class="stats-number"><?= htmlspecialchars((string)($specialist->getReviewCount() ?? 0)) ?></span>
+                                    <span class="stats-change">
+                                        <span class="material-symbols-outlined">star</span>
+                                        <?= htmlspecialchars((string)($specialist->getAverageRating() ?? 'New')) ?>
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="stats-note"><?= htmlspecialchars($specialist->getDescription()) ?></p>
+                        </div>
 
-            <!-- Right Column: Reviews Sidebar -->
-            <aside class="dashboard-sidebar">
-                <!-- Reviews Card -->
-                <div class="reviews-card">
-                    <div class="reviews-card-header">
-                        <h3>New Reviews</h3>
-                        <a href="#">View All</a>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <div class="chart-title">
+                                    <h3>Profile Overview</h3>
+                                    <p><?= htmlspecialchars($specialist->getProfession()) ?></p>
+                                </div>
+                            </div>
+                            <div class="trust-card">
+                                <div class="trust-header">
+                                    <div class="trust-icon">
+                                        <span class="material-symbols-outlined">verified_user</span>
+                                    </div>
+                                    <h4><?= htmlspecialchars($specialist->getExperienceYears()) ?> years of experience</h4>
+                                </div>
+                                <p>Response time: <?= htmlspecialchars($specialist->getResponseTime()) ?></p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="reviews-list">
-                        <!-- Review 1 -->
-                        <div class="review-item">
-                            <div class="review-item-header">
-                                <div class="review-stars">
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                </div>
-                                <span class="review-time">2 HOURS AGO</span>
+
+                    <div class="bento-row">
+                        <div class="premium-card">
+                            <div class="premium-icon">
+                                <span class="material-symbols-outlined">workspace_premium</span>
                             </div>
-                            <p class="review-author">Marek Wiśniewski</p>
-                            <p class="review-text">"Exceptional attention to detail. Aleksander transformed our office space beyond our expectations..."</p>
+                            <h4>Your Categories</h4>
+                            <p><?= htmlspecialchars(implode(', ', array_map(fn($category) => $category->getName(), $specialist->getCategories()))) ?: 'Add categories in profile settings.' ?></p>
+                            <a class="btn-upgrade" href="/profile-settings">Update Profile</a>
                         </div>
 
-                        <!-- Review 2 -->
-                        <div class="review-item">
-                            <div class="review-item-header">
-                                <div class="review-stars">
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <div class="trust-card">
+                            <div class="trust-header">
+                                <div class="trust-icon">
+                                    <span class="material-symbols-outlined">location_on</span>
                                 </div>
-                                <span class="review-time">YESTERDAY</span>
+                                <h4>Service Area</h4>
                             </div>
-                            <p class="review-author">Katarzyna Nowak</p>
-                            <p class="review-text">"Very professional and punctual. The final renders were photorealistic. Highly recommend."</p>
-                        </div>
-
-                        <!-- Review 3 -->
-                        <div class="review-item">
-                            <div class="review-item-header">
-                                <div class="review-stars">
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined">star</span>
-                                </div>
-                                <span class="review-time">3 DAYS AGO</span>
-                            </div>
-                            <p class="review-author">Tomasz Kot</p>
-                            <p class="review-text">"Great communication throughout the process. A few minor delays but the quality made up for it."</p>
+                            <p><?= htmlspecialchars(implode(', ', array_map(fn($location) => $location->getCity(), $specialist->getLocations()))) ?: 'No locations assigned yet.' ?></p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Resources Card -->
-                <div class="resources-card">
-                    <h5>Resources</h5>
-                    <ul class="resources-list">
-                        <li>
-                            <a href="#">
-                                <span class="material-symbols-outlined">menu_book</span>
-                                Pro Pricing Guide
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="material-symbols-outlined">photo_camera</span>
-                                Photography Tips
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
-        </div>
+                <aside class="dashboard-sidebar">
+                    <div class="reviews-card">
+                        <div class="reviews-card-header">
+                            <h3>New Reviews</h3>
+                            <a href="/expert-detail/<?= $specialist->getId() ?>">View All</a>
+                        </div>
+                        <div class="reviews-list">
+                            <?php foreach (($reviews ?? []) as $review): ?>
+                                <div class="review-item">
+                                    <div class="review-item-header">
+                                        <div class="review-stars">
+                                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' <?= $i <= $review->getRating() ? '1' : '0' ?>;">star</span>
+                                            <?php endfor; ?>
+                                        </div>
+                                        <span class="review-time"><?= htmlspecialchars($review->getCreatedAt() ? date('d.m.Y', strtotime($review->getCreatedAt())) : '') ?></span>
+                                    </div>
+                                    <p class="review-author"><?= htmlspecialchars($review->getAuthor()) ?></p>
+                                    <p class="review-text">"<?= htmlspecialchars($review->getComment()) ?>"</p>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        <?php endif; ?>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <span class="footer-logo">FachowiecNaJuz</span>
-                <p>Connecting elite professionals with the curated projects they deserve. Artisan quality, digital scale.</p>
-            </div>
-            <div class="footer-column">
-                <h6>Platform</h6>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h6>Legal</h6>
-                <ul>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h6>Support</h6>
-                <ul>
-                    <li><a href="#">Contact Support</a></li>
-                    <li><a href="#">Help Center</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>© 2024 FachowiecNaJuz. All rights reserved.</span>
-        </div>
-    </footer>
+    <?php include 'public/views/partials/footer.html'; ?>
 
+    <script src="/public/scripts/partials/navbar.js"></script>
     <script src="/public/scripts/pro-dashboard.js"></script>
 </body>
 </html>

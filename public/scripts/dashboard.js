@@ -1,16 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu toggle
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.toggle('open');
-            const icon = mobileMenuBtn.querySelector('.material-symbols-outlined');
-            icon.textContent = mobileMenu.classList.contains('open') ? 'close' : 'menu';
-        });
-    }
-    
     // Rating filter buttons
     const ratingBtns = document.querySelectorAll('.rating-btn');
     ratingBtns.forEach(btn => {
@@ -55,30 +43,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // View Profile button
-    const viewButtons = document.querySelectorAll('.btn-view-profile');
-    viewButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            window.location.href = '/expert-detail';
-        });
-    });
-    
     // Sign In button handlers
     const signInButtons = document.querySelectorAll('.btn-sign-in');
     signInButtons.forEach(button => {
         button.addEventListener('click', function() {
-            openLoginModal();
+            window.location.href = '/login';
         });
     });
 
-    // Join as Pro button handlers
-    const joinProButtons = document.querySelectorAll('.btn-join-pro');
-    joinProButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            window.location.href = '/register';
-        });
-    });
-    
     // Navigation scroll effect
     const nav = document.querySelector('.glass-nav');
     window.addEventListener('scroll', function() {

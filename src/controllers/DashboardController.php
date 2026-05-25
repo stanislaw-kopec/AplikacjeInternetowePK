@@ -3,17 +3,29 @@
 require_once 'AppController.php';
 
 require_once __DIR__.'/../repositories/UsersRepository.php';
+require_once __DIR__.'/../repositories/SpecialistRepository.php';
+require_once __DIR__.'/../repositories/LocationRepository.php';
+require_once __DIR__.'/../repositories/ReviewRepository.php';
+require_once __DIR__.'/../repositories/CategoryRepository.php';
 
 class DashboardController extends AppController {
 
     public function index() {
-        // Przekierowanie do nowego widoku dashboard
-        return $this->render("dashboard");
+        $specialistRepository = new SpecialistRepository();
+        $locationRepository = new LocationRepository();
+        $categoryRepository = new CategoryRepository();
+
+        return $this->render("dashboard", [
+            "specialists" => $specialistRepository->getAllSpecialistsWithRating(),
+            "locations" => $locationRepository->getAllLocations(),
+            "categories" => $categoryRepository->getAllCategories()
+        ]);
     }
 
     public function ildIndex() {
         // TODO pobieranie danych z bazy
         // wstawianie zmiennych na widok
+        $this->requireRole('User', 'Specialist');
         $title = "index";
         $usersRepository = new UsersRepository();
         $users = $usersRepository->getUsers();
@@ -22,10 +34,54 @@ class DashboardController extends AppController {
     }
 
     public function proDashboard() {
-        return $this->render("pro-dashboard");
+        $this->requireRole('Specialist');
+
+        $specialistRepository = new SpecialistRepository();
+        $reviewRepository = new ReviewRepository();
+        $specialist = $specialistRepository->getSpecialistByUserId($_SESSION['user_id']);
+
+        return $this->render("pro-dashboard", [
+            "specialist" => $specialist,
+            "reviews" => $specialist ? $reviewRepository->getReviewsBySpecialistId($specialist->getId()) : []
+        ]);
     }
 
     public function profileSettings() {
-        return $this->render("profile-settings");
+        $this->requireRole('User', 'Specialist');
+
+        $specialistRepository = new SpecialistRepository();
+        $categoryRepository = new CategoryRepository();
+        $user = $this->getCurrentUser();
+        $specialist = $user && $user->getRole() === 'Specialist'
+            ? $specialistRepository->getSpecialistByUserId($_SESSION['user_id'])
+            : null;
+
+        if ($this->isPost() && $specialist) {
+            $updatedSpecialist = new Specialist(
+                $_POST['name'] ?? $specialist->getName(),
+                $_POST['profession'] ?? $specialist->getProfession(),
+                $_POST['phone'] ?? $specialist->getPhone(),
+                $specialist->getId(),
+                $specialist->getAverageRating(),
+                $specialist->getReviewCount(),
+                $specialist->getUserId(),
+                $_POST['description'] ?? $specialist->getDescription(),
+                $_POST['bio'] ?? $specialist->getBio(),
+                $_POST['avatar_url'] ?? $specialist->getAvatarUrl(),
+                (int)($_POST['experience_years'] ?? $specialist->getExperienceYears()),
+                $_POST['response_time'] ?? $specialist->getResponseTime()
+            );
+
+            $specialistRepository->updateSpecialist($updatedSpecialist);
+            $specialistRepository->syncCategories($specialist->getId(), $_POST['category_ids'] ?? []);
+
+            header("Location: /profile-settings");
+            return;
+        }
+
+        return $this->render("profile-settings", [
+            "specialist" => $specialist,
+            "categories" => $categoryRepository->getAllCategories()
+        ]);
     }
 }

@@ -3,48 +3,20 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Professional Account Management - FachowiecNaJuz</title>
-    
-    <!-- Fonts -->
+    <title>Account Management - FachowiecNaJuz</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
-    <!-- Custom CSS -->
+
     <link rel="stylesheet" href="/public/styles/profile-settings.css"/>
+    <link rel="stylesheet" href="/public/styles/partials/navbar.css"/>
+    <link rel="stylesheet" href="/public/styles/partials/footer.css"/>
 </head>
 <body>
-    <!-- Top Navigation -->
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="nav-left">
-                <span class="logo">FachowiecNaJuz</span>
-                <div class="nav-links">
-                    <a href="/home">Home</a>
-                    <a href="/dashboard">Find Experts</a>
-                    <a href="/pro-dashboard" class="active">For Professionals</a>
-                </div>
-            </div>
-            <div class="nav-actions">
-                <button class="btn-sign-in">Sign In</button>
-                <button class="btn-join-pro">Join as Pro</button>
-                <button class="mobile-menu-btn" aria-label="Menu">
-                    <span class="material-symbols-outlined">menu</span>
-                </button>
-            </div>
-        </div>
-        <div class="mobile-menu">
-            <a href="/home">Home</a>
-            <a href="/dashboard">Find Experts</a>
-            <a href="/pro-dashboard" class="active">For Professionals</a>
-            <button class="btn-sign-in mobile-btn">Sign In</button>
-            <button class="btn-join-pro mobile-btn">Join as Pro</button>
-        </div>
-    </nav>
+    <?php include 'public/views/partials/navbar.html'; ?>
 
-    <!-- Main Content -->
     <main>
         <div class="content-layout">
-            <!-- Side Navigation -->
             <aside class="sidebar">
                 <div class="sidebar-sticky">
                     <h2 class="sidebar-title">Account Settings</h2>
@@ -53,20 +25,7 @@
                             <span class="material-symbols-outlined">person</span>
                             <span>Public Profile</span>
                         </a>
-                        <a href="#" class="sidebar-link">
-                            <span class="material-symbols-outlined">payments</span>
-                            <span>Payouts & Tax</span>
-                        </a>
-                        <a href="#" class="sidebar-link">
-                            <span class="material-symbols-outlined">notifications</span>
-                            <span>Notifications</span>
-                        </a>
-                        <a href="#" class="sidebar-link">
-                            <span class="material-symbols-outlined">security</span>
-                            <span>Security</span>
-                        </a>
-                        <div class="sidebar-divider"></div>
-                        <a href="#" class="sidebar-link logout">
+                        <a href="/logout" class="sidebar-link logout">
                             <span class="material-symbols-outlined">logout</span>
                             <span>Log out</span>
                         </a>
@@ -74,174 +33,130 @@
                 </div>
             </aside>
 
-            <!-- Main Content Area -->
             <div class="main-content">
                 <header class="content-header">
-                    <h1>Professional Profile</h1>
-                    <p>Manage how clients see your business. Keep your details current to increase your visibility and trust score.</p>
+                    <h1><?= $specialist ? 'Professional Profile' : 'User Profile' ?></h1>
+                    <p><?= $specialist ? 'Manage how clients see your business.' : 'Your user account can browse experts and add reviews.' ?></p>
                 </header>
 
-                <!-- Profile Settings Form -->
-                <div class="settings-card">
-                    <!-- Tab Header -->
-                    <div class="tabs-header">
-                        <button class="tab active" data-tab="basic-info">Basic Info</button>
-                        <button class="tab" data-tab="my-tags">My Tags</button>
-                        <button class="tab" data-tab="gallery">Gallery</button>
+                <?php if (!$specialist): ?>
+                    <div class="settings-card">
+                        <div class="form-section">
+                            <h3>User Account</h3>
+                            <p>You are logged in as <?= htmlspecialchars($currentUserEmail ?? 'user') ?>.</p>
+                        </div>
                     </div>
+                <?php else: ?>
+                    <?php $selectedCategoryIds = array_map(fn($category) => $category->getId(), $specialist->getCategories()); ?>
+                    <form class="settings-card" method="POST" action="/profile-settings">
+                        <div class="tabs-header">
+                            <button class="tab active" type="button" data-tab="basic-info">Basic Info</button>
+                            <button class="tab" type="button" data-tab="my-tags">My Tags</button>
+                            <button class="tab" type="button" data-tab="gallery">Gallery</button>
+                        </div>
 
-                    <!-- Tab Content -->
-                    <div class="tabs-content">
-                        <!-- Basic Info Tab -->
-                        <div class="tab-panel active" id="basic-info">
-                            <div class="form-section">
-                                <!-- Profile Photo -->
-                                <div class="profile-photo-section">
-                                    <div class="profile-photo">
-                                        <img alt="Professional portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6R0QmYJ0cxT98dosQxhWRKjmU8wHxpNL1KTNRZUmnTHjPWkCVuwPjS8v6YamYESltzWKksvyW95KvzPMvlZIAlMkIBspo7F-GKd3KxvKQyyMSmijX5uiOf3a7JinWMmMVE_NEfLZt03LuMoUXZSe9gCkyBnlAhK_pHzhPfs6jr8NIbYZF16nhFSEJ0PNb_PpNeqQNRMx8dpcKekAOn6cS6nsSgDgQw72STC_q4jp5bQlsRK8laWJitB7rh034tyD6BsD08ryNx2E"/>
-                                        <button class="photo-overlay">
-                                            <span class="material-symbols-outlined">photo_camera</span>
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <h3>Profile Image</h3>
-                                        <p>PNG or JPG, max 5MB. Recommended 400x400px.</p>
-                                    </div>
-                                </div>
-
-                                <!-- Form Grid -->
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label>Full Name</label>
-                                        <input type="text" value="Julian Kowalski"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Professional Title</label>
-                                        <input type="text" placeholder="e.g. Master Electrician"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Email Address</label>
-                                        <input type="email" value="julian.k@expert.pro"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Phone Number</label>
-                                        <input type="tel" value="+48 600 000 000"/>
-                                    </div>
-                                    <div class="form-group full-width">
-                                        <label>Location / Service Area</label>
-                                        <div class="input-with-icon">
-                                            <span class="material-symbols-outlined">location_on</span>
-                                            <input type="text" value="Warsaw, Masovian Voivodeship"/>
+                        <div class="tabs-content">
+                            <div class="tab-panel active" id="basic-info">
+                                <div class="form-section">
+                                    <div class="profile-photo-section">
+                                        <div class="profile-photo">
+                                            <img alt="<?= htmlspecialchars($specialist->getName()) ?>" src="<?= htmlspecialchars($specialist->getAvatarUrl() ?: 'https://placehold.co/160x160?text=Pro') ?>"/>
+                                        </div>
+                                        <div>
+                                            <h3>Profile Image</h3>
+                                            <p>Paste an image URL below to update your public profile picture.</p>
                                         </div>
                                     </div>
-                                    <div class="form-group full-width">
-                                        <label>Short Bio</label>
-                                        <textarea rows="4">Licensed professional with over 12 years of experience in residential renovations. Specialized in smart home integration and sustainable electrical solutions.</textarea>
+
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label>Full Name</label>
+                                            <input type="text" name="name" value="<?= htmlspecialchars($specialist->getName()) ?>"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Professional Title</label>
+                                            <input type="text" name="profession" value="<?= htmlspecialchars($specialist->getProfession()) ?>"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email Address</label>
+                                            <input type="email" value="<?= htmlspecialchars($currentUserEmail ?? '') ?>" disabled/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Phone Number</label>
+                                            <input type="tel" name="phone" value="<?= htmlspecialchars($specialist->getPhone()) ?>"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Experience Years</label>
+                                            <input type="number" name="experience_years" min="0" value="<?= htmlspecialchars((string)$specialist->getExperienceYears()) ?>"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Response Time</label>
+                                            <input type="text" name="response_time" value="<?= htmlspecialchars($specialist->getResponseTime()) ?>"/>
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>Avatar URL</label>
+                                            <input type="url" name="avatar_url" value="<?= htmlspecialchars($specialist->getAvatarUrl()) ?>"/>
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>Short Description</label>
+                                            <textarea name="description" rows="3"><?= htmlspecialchars($specialist->getDescription()) ?></textarea>
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label>Short Bio</label>
+                                            <textarea name="bio" rows="4"><?= htmlspecialchars($specialist->getBio()) ?></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-panel" id="my-tags">
+                                <div class="form-section">
+                                    <h3>Service Categories</h3>
+                                    <div class="tags-grid">
+                                        <?php foreach (($categories ?? []) as $category): ?>
+                                            <label class="tag-checkbox">
+                                                <input
+                                                    type="checkbox"
+                                                    name="category_ids[]"
+                                                    value="<?= $category->getId() ?>"
+                                                    <?= in_array($category->getId(), $selectedCategoryIds, true) ? 'checked' : '' ?>
+                                                />
+                                                <span><?= htmlspecialchars($category->getName()) ?></span>
+                                            </label>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-panel" id="gallery">
+                                <div class="form-section">
+                                    <div class="gallery-header">
+                                        <h3>Portfolio</h3>
+                                    </div>
+                                    <div class="gallery-grid">
+                                        <?php foreach ($specialist->getPortfolioItems() as $item): ?>
+                                            <div class="gallery-item">
+                                                <img alt="<?= htmlspecialchars($item->getTitle()) ?>" src="<?= htmlspecialchars($item->getImageUrl()) ?>"/>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- My Tags Tab -->
-                        <div class="tab-panel" id="my-tags">
-                            <div class="form-section">
-                                <h3>Service Categories</h3>
-                                <div class="tags-grid">
-                                    <label class="tag-checkbox">
-                                        <input type="checkbox" checked/>
-                                        <span>Electrical</span>
-                                    </label>
-                                    <label class="tag-checkbox">
-                                        <input type="checkbox" checked/>
-                                        <span>Smart Home</span>
-                                    </label>
-                                    <label class="tag-checkbox">
-                                        <input type="checkbox"/>
-                                        <span>Plumbing</span>
-                                    </label>
-                                </div>
-                            </div>
+                        <div class="form-footer">
+                            <a class="btn-cancel" href="/pro-dashboard">Cancel</a>
+                            <button class="btn-save" type="submit">Save Changes</button>
                         </div>
-
-                        <!-- Gallery Tab -->
-                        <div class="tab-panel" id="gallery">
-                            <div class="form-section">
-                                <div class="gallery-header">
-                                    <h3>Portfolio</h3>
-                                    <button class="btn-add-photo">
-                                        <span class="material-symbols-outlined">add_a_photo</span>
-                                        Add Photo
-                                    </button>
-                                </div>
-                                <div class="gallery-grid">
-                                    <div class="gallery-item">
-                                        <img alt="Work sample" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6UH4WRD-0tE-FDvavM923JiKe--uPvqnO4BCqd8OwSREjNMyetuCKaYOJpvK1AroAzQryO58EmOrCIxjAUUbeO8yo4_onb5US5Mg2K9lBbUmOsBljWel-R7y2vneo6-Ajysh1JltGkvaTApb1DNxa-oaGfpMf99QPkEtqs1QJP5c0J-eVJ8fY5bAVCVgzz8MkTpJPlzLLiAvbttKzdY1XNG5K40CqTbuFnT5mm1HRc14vcQjs2Wgd6HXEuRH2ysrx_f5OLSkv7_4"/>
-                                    </div>
-                                    <div class="gallery-item">
-                                        <img alt="Work sample" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7x4ouok63mzlnkVQ07o2YKM1FZ1jZGRLvdvKBtWs6BdhxVyy5A_PEKf4nDduPDpnUffCPJ2UBKz_tdHe0L-SGQQfP47WyUPXLA4GDT6BDKZCaBTQt17vcRX9kw2bj9MktPC2xpkpHb3k5J8sMsNauay3ftxMx4ymjB9EPy9iOpVr2vH0yyl4uoW2BnEwbDafo1Euh8AI_5CdTN9a5HywY3ZBiGc4Bz2ZwP3En9Q2AuVUb-Fhej5I35WgKksPvyvjbW9rSrA0tmV4"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer Action Bar -->
-                    <div class="form-footer">
-                        <button class="btn-cancel">Cancel</button>
-                        <button class="btn-save">Save Changes</button>
-                    </div>
-                </div>
-
-                <!-- Expert Spotlight Section -->
-                <section class="spotlight-section">
-                    <div class="spotlight-content">
-                        <div class="spotlight-text">
-                            <span class="spotlight-badge">PRO TIP</span>
-                            <h2>Get Verified to increase your reach by 40%</h2>
-                            <p>Verified professionals appear at the top of search results and gain the exclusive "Expert" badge, signaling trust to potential clients.</p>
-                            <button class="btn-verify">Start Verification</button>
-                        </div>
-                        <div class="spotlight-image">
-                            <div class="spotlight-image-wrapper">
-                                <img alt="Verified expert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzhsCGrLaPZ8gVlj8uNhLSZVAlGOs9tT_Y2iqyLpTpnGKhlwjY4G3t_y8fC0UbNQxtxGQwsm_9SYf-DrMI9dmukw8qYyNMLfooeg_wWJCWRGbBXG_-N0PpQ3r347d9h9a9FImytq_zjRtCtmnFpBVtb0KhimnMuioMssbzGT2vts4rL50ZXxChvvD6k4A2KGW0QewNnZjRNbb29zwzCBYXTQI4BTR3MZhWpzKuUNf1mSVsdnzQnIh_tS0L-gAcoNlEjeyU9hDIhfY"/>
-                                <div class="spotlight-image-overlay"></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                    </form>
+                <?php endif; ?>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <span class="footer-logo">FachowiecNaJuz</span>
-                <p>Connecting elite local professionals with discerning homeowners who value quality and craftsmanship.</p>
-                <p class="footer-copyright">© 2024 FachowiecNaJuz. All rights reserved.</p>
-            </div>
-            <div class="footer-column">
-                <span>Company</span>
-                <a href="#">About Us</a>
-                <a href="#">Careers</a>
-                <a href="#">Press</a>
-            </div>
-            <div class="footer-column">
-                <span>Support</span>
-                <a href="#">Help Center</a>
-                <a href="#">Contact Support</a>
-                <a href="#">Terms of Service</a>
-            </div>
-            <div class="footer-column">
-                <span>Legal</span>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Cookie Policy</a>
-                <a href="#">Accessibility</a>
-            </div>
-        </div>
-    </footer>
+    <?php include 'public/views/partials/footer.html'; ?>
 
+    <script src="/public/scripts/partials/navbar.js"></script>
     <script src="/public/scripts/profile-settings.js"></script>
 </body>
 </html>

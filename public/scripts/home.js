@@ -1,32 +1,4 @@
-// Mobile menu toggle
 document.addEventListener('DOMContentLoaded', function() {
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    
-    if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.toggle('open');
-            
-            // Change icon between menu and close
-            const icon = mobileMenuBtn.querySelector('.material-symbols-outlined');
-            if (mobileMenu.classList.contains('open')) {
-                icon.textContent = 'close';
-            } else {
-                icon.textContent = 'menu';
-            }
-        });
-    }
-    
-    // Close mobile menu when clicking on a link
-    const mobileLinks = document.querySelectorAll('.mobile-link');
-    mobileLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            mobileMenu.classList.remove('open');
-            const icon = mobileMenuBtn.querySelector('.material-symbols-outlined');
-            icon.textContent = 'menu';
-        });
-    });
-    
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -99,15 +71,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const signInButtons = document.querySelectorAll('.btn-sign-in');
     signInButtons.forEach(button => {
         button.addEventListener('click', function() {
-            openLoginModal();
+            window.location.href = '/login';
         });
     });
 
-    // Join as Pro button handlers
-    const joinProButtons = document.querySelectorAll('.btn-join-pro');
-    joinProButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            window.location.href = '/register';
-        });
-    });
 });

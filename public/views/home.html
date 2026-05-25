@@ -11,39 +11,11 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/public/styles/home.css"/>
+    <link rel="stylesheet" href="/public/styles/partials/navbar.css"/>
+    <link rel="stylesheet" href="/public/styles/partials/footer.css"/>
 </head>
 <body>
-    <!-- TopNavBar -->
-    <nav class="glass-nav">
-        <div class="nav-container">
-            <div class="logo">FachowiecNaJuz</div>
-            
-            <div class="nav-links">
-                <a class="nav-link active" href="/home">Home</a>
-                <a class="nav-link" href="/dashboard">Find Experts</a>
-                <a class="nav-link" href="/pro-dashboard">For Professionals</a>
-            </div>
-            
-            <div class="nav-actions">
-                <button class="btn-sign-in">Sign In</button>
-                <button class="btn-join-pro">Join as Pro</button>
-                
-                <!-- Mobile menu button -->
-                <button class="mobile-menu-btn" aria-label="Menu">
-                    <span class="material-symbols-outlined">menu</span>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Mobile menu -->
-        <div class="mobile-menu">
-        <a class="mobile-link active" href="/home">Home</a>
-        <a class="mobile-link" href="/dashboard">Find Experts</a>
-        <a class="mobile-link" href="/pro-dashboard">For Professionals</a>
-            <button class="btn-sign-in mobile-btn">Sign In</button>
-            <button class="btn-join-pro mobile-btn">Join as Pro</button>
-        </div>
-    </nav>
+    <?php include 'public/views/partials/navbar.html'; ?>
 
     <!-- Main Content -->
     <main>
@@ -198,58 +170,10 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <div class="footer-logo">FachowiecNaJuz</div>
-                <p class="footer-brand-text">
-                    Connecting homeowners with the finest local artisans. Quality, reliability, and transparency in every task.
-                </p>
-            </div>
-            
-            <div class="footer-column">
-                <h5 class="footer-column-title">Company</h5>
-                <nav class="footer-nav">
-                    <a href="#">About Us</a>
-                    <a href="#">Careers</a>
-                    <a href="#">Press</a>
-                </nav>
-            </div>
-            
-            <div class="footer-column">
-                <h5 class="footer-column-title">Services</h5>
-                <nav class="footer-nav">
-                    <a href="#">Plumbing</a>
-                    <a href="#">Electrical</a>
-                    <a href="#">Handyman</a>
-                </nav>
-            </div>
-            
-            <div class="footer-column">
-                <h5 class="footer-column-title">Support</h5>
-                <nav class="footer-nav">
-                    <a href="#">Help Center</a>
-                    <a href="#">Contact Support</a>
-                    <a href="#">Privacy Policy</a>
-                </nav>
-            </div>
-            
-            <div class="footer-column">
-                <h5 class="footer-column-title">Legal</h5>
-                <nav class="footer-nav">
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Cookie Policy</a>
-                </nav>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            © 2024 FachowiecNaJuz. All rights reserved.
-        </div>
-    </footer>
+    <?php include 'public/views/partials/footer.html'; ?>
 
     <!-- Custom JavaScript -->
+    <script src="/public/scripts/partials/navbar.js"></script>
     <script src="/public/scripts/home.js"></script>
 </body>
 </html>

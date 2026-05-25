@@ -3,7 +3,9 @@
 require_once 'AppController.php';
 
 require_once __DIR__.'/../repositories/UsersRepository.php';
+require_once __DIR__.'/../repositories/SpecialistRepository.php';
 require_once __DIR__.'/../models/User.php';
+require_once __DIR__.'/../models/Specialist.php';
 
 class SecurityController extends AppController {
 
@@ -31,8 +33,10 @@ class SecurityController extends AppController {
         }
 
         $_SESSION['user_id'] = $user->getId();
+        $_SESSION['user_role'] = $user->getRole();
 
-        header("Location: /dashboard");
+        $redirect = $this->getSafeRedirect($_GET['redirect'] ?? null);
+        header("Location: " . $redirect);
     }
 
     public function register()
@@ -43,6 +47,12 @@ class SecurityController extends AppController {
 
         $email = $_POST['email'];
         $password = $_POST['password'];
+        $role = $_POST['role'] ?? 'User';
+
+        if (!in_array($role, ['User', 'Specialist'], true)) {
+            echo "Invalid role";
+            return;
+        }
 
         $hashedPassword = password_hash(
             $password,
@@ -60,11 +70,48 @@ class SecurityController extends AppController {
 
         $user = new User(
             $email,
-            $hashedPassword
+            $hashedPassword,
+            0,
+            $role
         );
 
-        $usersRepository->createUser($user);
+        $userId = $usersRepository->createUser($user);
+
+        if ($role === 'Specialist') {
+            $name = explode('@', $email)[0];
+            $specialist = new Specialist(
+                $name,
+                'Specialist',
+                '',
+                0,
+                null,
+                null,
+                $userId,
+                'Update your profile description so clients know what you do best.',
+                'Tell clients about your experience, services and working style.',
+                '',
+                0,
+                '< 1 hour'
+            );
+
+            (new SpecialistRepository())->createSpecialist($specialist);
+        }
 
         header("Location: /login");
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        header("Location: /home");
+    }
+
+    private function getSafeRedirect(?string $redirect): string
+    {
+        if (!$redirect || !str_starts_with($redirect, '/') || str_starts_with($redirect, '//')) {
+            return '/dashboard';
+        }
+
+        return $redirect;
     }
 }

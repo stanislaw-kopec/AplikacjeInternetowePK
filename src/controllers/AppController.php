@@ -31,7 +31,27 @@ class AppController {
     protected function requireAuth()
     {
         if (!$this->isLoggedIn()) {
+            $redirect = $_SERVER['REQUEST_URI'] ?? '/dashboard';
+            header("Location: /login?redirect=" . urlencode($redirect));
+            exit;
+        }
+    }
+
+    protected function requireRole(string ...$roles)
+    {
+        $this->requireAuth();
+
+        $user = $this->getCurrentUser();
+
+        if (!$user) {
+            session_destroy();
             header("Location: /login");
+            exit;
+        }
+
+        if (!in_array($user->getRole(), $roles, true)) {
+            http_response_code(403);
+            include 'public/views/403.html';
             exit;
         }
     }
@@ -43,6 +63,11 @@ class AppController {
         $output = "";
                  
         if(file_exists($templatePath)){
+            $currentUser = $this->getCurrentUser();
+            $variables['isLoggedIn'] = $currentUser !== null;
+            $variables['currentUserRole'] = $currentUser ? $currentUser->getRole() : null;
+            $variables['currentUserEmail'] = $currentUser ? $currentUser->getEmail() : null;
+
             extract($variables);
             // ["tab_name" => $title]
 
