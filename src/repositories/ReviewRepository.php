@@ -23,7 +23,8 @@ class ReviewRepository extends Repository {
                 $review['comment'],
                 $review['id'],
                 $review['user_id'] ?? null,
-                $review['created_at'] ?? null
+                $review['created_at'] ?? null,
+                $review['category_id'] ?? null    // nowe
             );
         }
 
@@ -33,8 +34,8 @@ class ReviewRepository extends Repository {
     public function createReview(Review $review): void
     {
         $query = $this->database->connect()->prepare(
-            "INSERT INTO reviews (specialist_id, user_id, author, rating, comment) 
-             VALUES (:specialist_id, :user_id, :author, :rating, :comment)"
+            "INSERT INTO reviews (specialist_id, user_id, author, rating, comment, category_id) 
+             VALUES (:specialist_id, :user_id, :author, :rating, :comment, :category_id)"
         );
 
         $specialistId = $review->getSpecialistId();
@@ -42,12 +43,14 @@ class ReviewRepository extends Repository {
         $author = $review->getAuthor();
         $rating = $review->getRating();
         $comment = $review->getComment();
+        $categoryId = $review->getCategoryId();
 
         $query->bindParam(':specialist_id', $specialistId, PDO::PARAM_INT);
         $query->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $query->bindParam(':author', $author, PDO::PARAM_STR);
         $query->bindParam(':rating', $rating, PDO::PARAM_INT);
         $query->bindParam(':comment', $comment, PDO::PARAM_STR);
+        $query->bindParam(':category_id', $categoryId, $categoryId ? PDO::PARAM_INT : PDO::PARAM_NULL);
 
         $query->execute();
     }

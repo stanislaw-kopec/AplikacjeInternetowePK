@@ -54,16 +54,16 @@ class Routing {
             "action" => "create"
         ],
         "pro-dashboard" => [
-        "controller" => "DashboardController",
-        "action" => "proDashboard"
+            "controller" => "DashboardController",
+            "action" => "proDashboard"
         ],
         "expert-detail" => [
-        "controller" => "SpecialistController",
-        "action" => "expertDetail"
+            "controller" => "SpecialistController",
+            "action" => "expertDetail"
         ],
         "profile-settings" => [
-        "controller" => "DashboardController",
-        "action" => "profileSettings"
+            "controller" => "DashboardController",
+            "action" => "profileSettings"
         ],
         "assign-location" => [
             "controller" => "SpecialistController",

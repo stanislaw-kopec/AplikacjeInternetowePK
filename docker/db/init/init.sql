@@ -41,6 +41,7 @@ CREATE TABLE reviews (
     author VARCHAR(100) NOT NULL,
     rating INT NOT NULL,
     comment TEXT,
+    category_id INT,                              -- nowa kolumna
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_review_specialist
@@ -51,6 +52,11 @@ CREATE TABLE reviews (
     CONSTRAINT fk_review_user
         FOREIGN KEY (user_id)
         REFERENCES users(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_review_category
+        FOREIGN KEY (category_id)
+        REFERENCES categories(id)
         ON DELETE SET NULL
 );
 

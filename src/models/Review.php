@@ -9,6 +9,7 @@ class Review {
     private int $rating;
     private string $comment;
     private ?string $createdAt;
+    private ?int $categoryId;                     // nowe pole
 
     public function __construct(
         int $specialistId,
@@ -17,7 +18,8 @@ class Review {
         string $comment,
         int $id = 0,
         ?int $userId = null,
-        ?string $createdAt = null
+        ?string $createdAt = null,
+        ?int $categoryId = null                  // nowy parametr
     ) {
         $this->specialistId = $specialistId;
         $this->author = $author;
@@ -26,6 +28,7 @@ class Review {
         $this->id = $id;
         $this->userId = $userId;
         $this->createdAt = $createdAt;
+        $this->categoryId = $categoryId;
     }
 
     public function getId(): int {
@@ -54,5 +57,9 @@ class Review {
 
     public function getCreatedAt(): ?string {
         return $this->createdAt;
+    }
+
+    public function getCategoryId(): ?int {
+        return $this->categoryId;
     }
 }
