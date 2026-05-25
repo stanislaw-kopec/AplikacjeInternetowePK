@@ -301,4 +301,28 @@ class SpecialistRepository extends Repository {
 
         return $specialist;
     }
+
+    public function syncLocations(int $specialistId, array $locationIds): void
+{
+    $connection = $this->database->connect();
+
+    // Usuń obecne przypisania
+    $delete = $connection->prepare("DELETE FROM specialist_locations WHERE specialist_id = :specialist_id");
+    $delete->bindParam(':specialist_id', $specialistId, PDO::PARAM_INT);
+    $delete->execute();
+
+    // Wstaw nowe
+    $insert = $connection->prepare(
+        "INSERT INTO specialist_locations(specialist_id, location_id)
+         VALUES (:specialist_id, :location_id)
+         ON CONFLICT (specialist_id, location_id) DO NOTHING"
+    );
+
+    foreach ($locationIds as $locationId) {
+        $locationId = (int)$locationId;
+        $insert->bindParam(':specialist_id', $specialistId, PDO::PARAM_INT);
+        $insert->bindParam(':location_id', $locationId, PDO::PARAM_INT);
+        $insert->execute();
+    }
+}
 }

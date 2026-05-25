@@ -83,9 +83,12 @@
                             <?php foreach ($specialist->getCategories() as $category): ?>
                                 <span class="tag"><?= htmlspecialchars($category->getName()) ?></span>
                             <?php endforeach; ?>
-                            <?php if (count($specialist->getCategories()) === 0): ?>
-                                <span class="tag"><?= htmlspecialchars($specialist->getProfession()) ?></span>
-                            <?php endif; ?>
+                            <?php foreach ($specialist->getLocations() as $location): ?>
+                                <span class="tag location-tag">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">location_on</span>
+                                    <?= htmlspecialchars($location->getCity()) ?>
+                                </span>
+                            <?php endforeach; ?>
                         </div>
 
                         <p class="card-description"><?= htmlspecialchars($specialist->getDescription() ?: $specialist->getProfession()) ?></p>

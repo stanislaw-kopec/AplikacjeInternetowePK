@@ -1,13 +1,12 @@
 <?php
 
 require_once 'AppController.php';
-
 require_once __DIR__.'/../repositories/UsersRepository.php';
 require_once __DIR__.'/../repositories/SpecialistRepository.php';
 require_once __DIR__.'/../repositories/LocationRepository.php';
 require_once __DIR__.'/../repositories/ReviewRepository.php';
 require_once __DIR__.'/../repositories/CategoryRepository.php';
-require_once __DIR__.'/../models/PortfolioItem.php';   // <-- dodany import
+require_once __DIR__.'/../models/PortfolioItem.php';
 
 class DashboardController extends AppController {
 
@@ -28,7 +27,6 @@ class DashboardController extends AppController {
         $title = "index";
         $usersRepository = new UsersRepository();
         $users = $usersRepository->getUsers();
-
         return $this->render("index", ["title" => $title, "users" => $users]);
     }
 
@@ -50,13 +48,13 @@ class DashboardController extends AppController {
 
         $specialistRepository = new SpecialistRepository();
         $categoryRepository = new CategoryRepository();
+        $locationRepository = new LocationRepository();
         $user = $this->getCurrentUser();
         $specialist = $user && $user->getRole() === 'Specialist'
             ? $specialistRepository->getSpecialistByUserId($_SESSION['user_id'])
             : null;
 
         if ($this->isPost() && $specialist) {
-            // Aktualizacja danych specjalisty
             $updatedSpecialist = new Specialist(
                 $_POST['name'] ?? $specialist->getName(),
                 $_POST['profession'] ?? $specialist->getProfession(),
@@ -74,8 +72,8 @@ class DashboardController extends AppController {
 
             $specialistRepository->updateSpecialist($updatedSpecialist);
             $specialistRepository->syncCategories($specialist->getId(), $_POST['category_ids'] ?? []);
+            $specialistRepository->syncLocations($specialist->getId(), $_POST['location_ids'] ?? []);
 
-            // --- NOWE: dodawanie zdjęcia do portfolio ---
             if (!empty($_POST['portfolio_title']) && !empty($_POST['portfolio_image_url'])) {
                 $portfolioItem = new PortfolioItem(
                     $specialist->getId(),
@@ -91,7 +89,8 @@ class DashboardController extends AppController {
 
         return $this->render("profile-settings", [
             "specialist" => $specialist,
-            "categories" => $categoryRepository->getAllCategories()
+            "categories" => $categoryRepository->getAllCategories(),
+            "locations" => $locationRepository->getAllLocations()   // <-- nowe
         ]);
     }
 }
