@@ -5,6 +5,9 @@ require_once 'src/controllers/DashboardController.php';
 require_once 'src/controllers/HomeController.php';
 require_once 'src/controllers/SpecialistController.php';
 require_once 'src/controllers/LocationController.php';
+require_once 'src/controllers/ApiSecurityController.php';
+require_once 'src/controllers/ApiSpecialistController.php';
+require_once 'src/controllers/ApiLocationController.php';
 
 class Routing {
 
@@ -22,8 +25,8 @@ class Routing {
             "action" => "index"
         ],
         "" => [
-            "controller" => "SecurityController",
-            "action" => "login"
+            "controller" => "HomeController",
+            "action" => "index"
         ],
         "register" => [
             "controller" => "SecurityController",
@@ -63,7 +66,35 @@ class Routing {
         ]
     ];
 
+    public static $apiRoutes = [
+        "api/login" => [
+            "controller" => "ApiSecurityController",
+            "action" => "login"
+        ],
+        "api/logout" => [
+            "controller" => "ApiSecurityController",
+            "action" => "logout"
+        ],
+        "api/specialists" => [
+            "controller" => "ApiSpecialistController",
+            "action" => "list"
+        ],
+        "api/locations" => [
+            "controller" => "ApiLocationController",
+            "action" => "list"
+        ]
+    ];
+
     public static function run(string $path, $id = null) {
+        // Check API routes first
+        if (array_key_exists($path, self::$apiRoutes)) {
+            $controller = self::$apiRoutes[$path]["controller"];
+            $action = self::$apiRoutes[$path]["action"];
+            $controllerObj = new $controller;
+            $controllerObj->$action($id);
+            return;
+        }
+
         if (!array_key_exists($path, self::$routes)) {
             include 'public/views/404.html';
             return;

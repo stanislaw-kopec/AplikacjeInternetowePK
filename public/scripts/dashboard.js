@@ -55,19 +55,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // View Profile button - POPRAWIONE
-const viewButtons = document.querySelectorAll('.btn-view-profile');
-viewButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-        // Na razie przekieruj do statycznej strony
-        window.location.href = '/expert-detail';
-        
-        // TODO: Dynamiczne przekierowanie z ID
-        // const card = this.closest('.profile-card');
-        // const specialistId = card.getAttribute('data-specialist-id');
-        // window.location.href = '/expert-detail/' + specialistId;
+    // View Profile button
+    const viewButtons = document.querySelectorAll('.btn-view-profile');
+    viewButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            window.location.href = '/expert-detail';
+        });
     });
-});
+    
+    // Sign In button handlers
+    const signInButtons = document.querySelectorAll('.btn-sign-in');
+    signInButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            openLoginModal();
+        });
+    });
+
+    // Join as Pro button handlers
+    const joinProButtons = document.querySelectorAll('.btn-join-pro');
+    joinProButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            window.location.href = '/register';
+        });
+    });
     
     // Navigation scroll effect
     const nav = document.querySelector('.glass-nav');

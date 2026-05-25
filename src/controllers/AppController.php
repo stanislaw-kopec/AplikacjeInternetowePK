@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__.'/../repositories/UsersRepository.php';
 
 class AppController {
     protected function isGet(): bool
@@ -11,7 +12,30 @@ class AppController {
     {
         return $_SERVER["REQUEST_METHOD"] === 'POST';
     }
- 
+
+    protected function isLoggedIn(): bool
+    {
+        return isset($_SESSION['user_id']);
+    }
+
+    protected function getCurrentUser()
+    {
+        if (!$this->isLoggedIn()) {
+            return null;
+        }
+
+        $usersRepository = new UsersRepository();
+        return $usersRepository->getUserById($_SESSION['user_id']);
+    }
+
+    protected function requireAuth()
+    {
+        if (!$this->isLoggedIn()) {
+            header("Location: /login");
+            exit;
+        }
+    }
+
     protected function render(string $template = null, array $variables = [])
     {
         $templatePath = 'public/views/'. $template.'.html';
