@@ -27,7 +27,7 @@
                     <div class="filter-section">
                         <label class="filter-label">City</label>
                         <div class="filter-input-wrapper">
-                            <input type="text" value="<?= htmlspecialchars(($locations[0] ?? null) ? $locations[0]->getCity() : 'Warszawa') ?>" placeholder="Type city and press Enter..."/>
+                            <input type="text" value="<?= htmlspecialchars(($locations[0] ?? null) ? $locations[1]->getCity() : 'Warszawa') ?>" placeholder="Type city and press Enter..."/>
                             <span class="material-symbols-outlined">location_on</span>
                         </div>
                     </div>
@@ -36,12 +36,26 @@
                         <label class="filter-label">Minimum Rating</label>
                         <div class="rating-options">
                             <button class="rating-btn active" data-rating="all">
-                                <div class="rating-stars">
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-                                </div>
+                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
                                 <span class="rating-text">All Ratings</span>
+                            </button>
+                            <button class="rating-btn" data-rating="3">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' <?= $i <= 3 ? 1 : 0 ?>;">star</span>
+                                <?php endfor; ?>
+                                <span class="rating-text">&amp; up</span>
+                            </button>
+                            <button class="rating-btn" data-rating="4">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' <?= $i <= 4 ? 1 : 0 ?>;">star</span>
+                                <?php endfor; ?>
+                                <span class="rating-text">&amp; up</span>
+                            </button>
+                            <button class="rating-btn" data-rating="5">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <?php endfor; ?>
+                                <span class="rating-text">5 stars</span>
                             </button>
                         </div>
                     </div>

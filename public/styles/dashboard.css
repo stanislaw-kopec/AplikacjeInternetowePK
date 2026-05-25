@@ -296,17 +296,17 @@ main {
     pointer-events: none;
 }
 
-/* Rating Filter */
+/* Rating Filter – ikonki Material Symbols (wygląd z expert-detail) */
 .rating-options {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
 }
 
 .rating-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.25rem;
     width: 100%;
     padding: 0.5rem;
     border-radius: var(--radius-md);
@@ -326,20 +326,17 @@ main {
     background: var(--surface-container-low);
 }
 
-.rating-stars {
-    display: flex;
-    color: var(--secondary-container);
-    gap: 0.125rem;
-}
-
-.rating-stars .material-symbols-outlined {
+.rating-btn .material-symbols-outlined {
     font-size: 1.125rem;
+    color: var(--secondary-container);
+    line-height: 1;
 }
 
 .rating-text {
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--on-surface-variant);
+    margin-left: 0.25rem;
 }
 
 .rating-btn.active .rating-text {
@@ -466,6 +463,11 @@ main {
     letter-spacing: 0.1em;
     padding: 0.25rem 0.5rem;
     border-radius: var(--radius-sm);
+}
+
+.location-tag {
+    background: #e0f2fe;
+    color: #0369a1;
 }
 
 .card-description {

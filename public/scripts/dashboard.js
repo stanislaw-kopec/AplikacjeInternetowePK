@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Elementy filtrów
     const cityInput = document.querySelector('.filter-input-wrapper input');
     const categoryCheckboxes = document.querySelectorAll('.specialization-option input[type="checkbox"]');
     const ratingBtns = document.querySelectorAll('.rating-btn');
     const profileCards = document.querySelectorAll('.profile-card');
 
-    // Ocena – wizualna aktywacja
+    // Obsługa przycisków oceny
     ratingBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             ratingBtns.forEach(b => b.classList.remove('active'));
@@ -14,67 +13,62 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Miasto – filtr po wciśnięciu Enter
+    // Miasto
     if (cityInput) {
         cityInput.addEventListener('keyup', function(e) {
             if (e.key === 'Enter') filterCards();
         });
     }
 
-    // Kategorie – reakcja na zmianę checkboxa
-    categoryCheckboxes.forEach(cb => {
-        cb.addEventListener('change', filterCards);
-    });
+    // Kategorie
+    categoryCheckboxes.forEach(cb => cb.addEventListener('change', filterCards));
 
-    // Główna funkcja filtrująca
     function filterCards() {
         const searchCity = cityInput ? cityInput.value.trim().toLowerCase() : '';
         const selectedCategories = [];
         categoryCheckboxes.forEach(cb => {
-            if (cb.checked) {
-                selectedCategories.push(cb.dataset.category.toLowerCase());
-            }
+            if (cb.checked) selectedCategories.push(cb.dataset.category.toLowerCase());
         });
 
+        // Pobranie minimalnej oceny
         const activeRatingBtn = document.querySelector('.rating-btn.active');
         const minRating = activeRatingBtn ? activeRatingBtn.dataset.rating : 'all';
 
         profileCards.forEach(card => {
             let visible = true;
 
-            // Filtrowanie po mieście (szukanie w całej treści karty)
+            // Filtrowanie miasta
             if (searchCity) {
                 const cardText = card.textContent.toLowerCase();
-                if (!cardText.includes(searchCity)) {
-                    visible = false;
-                }
+                if (!cardText.includes(searchCity)) visible = false;
             }
 
-            // Filtrowanie po kategoriach
+            // Filtrowanie kategorii
             if (visible && selectedCategories.length > 0) {
-                const cardCats = (card.dataset.categories || '').toLowerCase().split(',').map(s => s.trim());
-                const hasCategory = selectedCategories.some(cat => cardCats.includes(cat));
-                if (!hasCategory) {
+                const raw = card.dataset.categories || '';
+                const cardCats = raw.toLowerCase().split(',').map(s => s.trim()).filter(s => s !== '');
+                if (cardCats.length === 0) {
                     visible = false;
+                } else {
+                    const hasCategory = selectedCategories.some(cat => cardCats.includes(cat));
+                    if (!hasCategory) visible = false;
                 }
             }
 
-            // Filtrowanie po minimalnej ocenie (opcjonalne, na przyszłość)
+            // Filtrowanie oceny
             if (visible && minRating !== 'all') {
                 const ratingEl = card.querySelector('.rating-value');
                 if (ratingEl) {
                     const ratingText = ratingEl.textContent.trim();
                     const rating = ratingText === 'New' ? 0 : parseFloat(ratingText);
-                    if (rating < parseFloat(minRating)) {
-                        visible = false;
-                    }
+                    if (rating < parseFloat(minRating)) visible = false;
                 }
             }
 
             card.style.display = visible ? '' : 'none';
         });
 
-        // Aktualizacja licznika widocznych kart
+        // Aktualizacja licznika
         const visibleCards = document.querySelectorAll('.profile-card[style*="display: block"], .profile-card:not([style*="display"])');
         const header = document.querySelector('.results-header h1');
         if (header) {
@@ -82,12 +76,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Przycisk Sign In (jeśli występuje)
+    // Sign In
     document.querySelectorAll('.btn-sign-in').forEach(btn => {
         btn.addEventListener('click', () => window.location.href = '/login');
     });
 
-    // Cień na pasku nawigacji przy przewijaniu
+    // Nav shadow
     const nav = document.querySelector('.glass-nav');
     if (nav) {
         window.addEventListener('scroll', () => {
