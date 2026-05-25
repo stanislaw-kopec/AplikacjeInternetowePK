@@ -94,4 +94,20 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.feature-card').forEach(card => {
         observer.observe(card);
     });
+
+    // Sign In button handlers
+    const signInButtons = document.querySelectorAll('.btn-sign-in');
+    signInButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            openLoginModal();
+        });
+    });
+
+    // Join as Pro button handlers
+    const joinProButtons = document.querySelectorAll('.btn-join-pro');
+    joinProButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            window.location.href = '/register';
+        });
+    });
 });

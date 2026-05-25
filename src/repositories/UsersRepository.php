@@ -16,6 +16,29 @@ class UsersRepository extends Repository {
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getUserById(int $id): ?User
+    {
+        $query = $this->database->connect()->prepare(
+            "SELECT * FROM users WHERE id = :id"
+        );
+
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+
+        $query->execute();
+
+        $user = $query->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            return null;
+        }
+
+        return new User(
+            $user['email'],
+            $user['password'],
+            $user['id']
+        );
+    }
+
     public function getUserByEmail(string $email): ?User
     {
         $query = $this->database->connect()->prepare(
