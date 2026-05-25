@@ -130,9 +130,8 @@
 
                             <div class="tab-panel" id="gallery">
                                 <div class="form-section">
-                                    <div class="gallery-header">
-                                        <h3>Portfolio</h3>
-                                    </div>
+                                    <h3>Portfolio</h3>
+                                    <!-- wyświetlanie istniejących zdjęć -->
                                     <div class="gallery-grid">
                                         <?php foreach ($specialist->getPortfolioItems() as $item): ?>
                                             <div class="gallery-item">
@@ -140,8 +139,26 @@
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
+
+                                    <!-- NOWY FORMULARZ DODAWANIA -->
+                                    <div style="margin-top: 2rem;">
+                                        <h4>Add New Portfolio Image</h4>
+                                        <div class="form-grid">
+                                            <div class="form-group">
+                                                <label>Title</label>
+                                                <input type="text" name="portfolio_title" placeholder="e.g. Bathroom renovation"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Image URL</label>
+                                                <input type="url" name="portfolio_image_url" placeholder="https://..."/>
+                                            </div>
+                                        </div>
+                                        <p style="font-size: 0.9rem; color: #6b7280; margin-top: 0.5rem;">
+                                            Fill in both fields and click <strong>Save Changes</strong> at the bottom of the page.
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
+</div>
                         </div>
 
                         <div class="form-footer">

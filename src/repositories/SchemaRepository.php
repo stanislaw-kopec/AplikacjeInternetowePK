@@ -29,30 +29,16 @@ class SchemaRepository extends Repository {
             ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         ");
 
-        // Nowa migracja – kategoria opinii
-        $connection->exec("
-            ALTER TABLE reviews
-            ADD COLUMN IF NOT EXISTS user_id INT,
-            ADD COLUMN IF NOT EXISTS created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-        ");
-
-        // Bezpieczne dodanie kolumny category_id i klucza obcego
+        // Usunięcie kolumny category_id i jej klucza obcego (jeśli istniały)
         $connection->exec("
             DO $$
             BEGIN
-                -- Dodaj kolumnę, jeśli nie istnieje
-                ALTER TABLE reviews ADD COLUMN IF NOT EXISTS category_id INT;
-
-                -- Dodaj klucz obcy tylko jeśli jeszcze go nie ma
-            IF NOT EXISTS (
-            SELECT 1 FROM pg_constraint
-            WHERE conname = 'fk_review_category'
-              AND conrelid = 'reviews'::regclass
-            ) THEN
-            ALTER TABLE reviews ADD CONSTRAINT fk_review_category
-                FOREIGN KEY (category_id) REFERENCES categories(id)
-                ON DELETE SET NULL;
-            END IF;
+                IF EXISTS (
+                    SELECT 1 FROM information_schema.columns
+                    WHERE table_name = 'reviews' AND column_name = 'category_id'
+                ) THEN
+                    ALTER TABLE reviews DROP COLUMN IF EXISTS category_id CASCADE;
+                END IF;
             END;
             $$;
         ");

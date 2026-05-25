@@ -7,6 +7,7 @@ require_once __DIR__.'/../repositories/SpecialistRepository.php';
 require_once __DIR__.'/../repositories/LocationRepository.php';
 require_once __DIR__.'/../repositories/ReviewRepository.php';
 require_once __DIR__.'/../repositories/CategoryRepository.php';
+require_once __DIR__.'/../models/PortfolioItem.php';   // <-- dodany import
 
 class DashboardController extends AppController {
 
@@ -23,8 +24,6 @@ class DashboardController extends AppController {
     }
 
     public function ildIndex() {
-        // TODO pobieranie danych z bazy
-        // wstawianie zmiennych na widok
         $this->requireRole('User', 'Specialist');
         $title = "index";
         $usersRepository = new UsersRepository();
@@ -57,6 +56,7 @@ class DashboardController extends AppController {
             : null;
 
         if ($this->isPost() && $specialist) {
+            // Aktualizacja danych specjalisty
             $updatedSpecialist = new Specialist(
                 $_POST['name'] ?? $specialist->getName(),
                 $_POST['profession'] ?? $specialist->getProfession(),
@@ -74,6 +74,16 @@ class DashboardController extends AppController {
 
             $specialistRepository->updateSpecialist($updatedSpecialist);
             $specialistRepository->syncCategories($specialist->getId(), $_POST['category_ids'] ?? []);
+
+            // --- NOWE: dodawanie zdjęcia do portfolio ---
+            if (!empty($_POST['portfolio_title']) && !empty($_POST['portfolio_image_url'])) {
+                $portfolioItem = new PortfolioItem(
+                    $specialist->getId(),
+                    $_POST['portfolio_title'],
+                    $_POST['portfolio_image_url']
+                );
+                $specialistRepository->addPortfolioItem($portfolioItem);
+            }
 
             header("Location: /profile-settings");
             return;

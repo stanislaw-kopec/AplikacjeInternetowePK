@@ -8,6 +8,23 @@ require_once __DIR__.'/../models/PortfolioItem.php';
 
 class SpecialistRepository extends Repository {
 
+    public function addPortfolioItem(PortfolioItem $item): void
+    {
+        $query = $this->database->connect()->prepare(
+            "INSERT INTO portfolio_items (specialist_id, title, image_url) 
+             VALUES (:specialist_id, :title, :image_url)"
+        );
+
+        $specialistId = $item->getSpecialistId();
+        $title = $item->getTitle();
+        $imageUrl = $item->getImageUrl();
+
+        $query->bindParam(':specialist_id', $specialistId, PDO::PARAM_INT);
+        $query->bindParam(':title', $title, PDO::PARAM_STR);
+        $query->bindParam(':image_url', $imageUrl, PDO::PARAM_STR);
+        $query->execute();
+    }
+
     public function getAllSpecialists(): array
     {
         $query = $this->database->connect()->prepare(

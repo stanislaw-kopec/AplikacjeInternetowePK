@@ -28,12 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const callBtn = document.querySelector('.btn-call');
     if (callBtn) {
         callBtn.addEventListener('click', function() {
-            if (!isLoggedIn) {
-                window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
-                return;
+            const phone = this.dataset.phone;
+            if (phone) {
+                this.innerHTML = '<span class="material-symbols-outlined">call</span> ' + phone;
+                this.disabled = true;
+                this.style.cursor = 'default';
             }
-
-            alert('Phone number: ' + (this.dataset.phone || 'not available'));
         });
     }
     

@@ -9,11 +9,7 @@ CREATE TABLE profiles (
     id SERIAL PRIMARY KEY,
     user_id INT UNIQUE NOT NULL,
     username VARCHAR(100) NOT NULL,
-
-    CONSTRAINT fk_profile_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
-        ON DELETE CASCADE
+    CONSTRAINT fk_profile_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE specialists (
@@ -27,11 +23,7 @@ CREATE TABLE specialists (
     avatar_url TEXT DEFAULT '',
     experience_years INT DEFAULT 0,
     response_time VARCHAR(50) DEFAULT '< 1 hour',
-
-    CONSTRAINT fk_specialist_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
-        ON DELETE CASCADE
+    CONSTRAINT fk_specialist_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE reviews (
@@ -41,23 +33,9 @@ CREATE TABLE reviews (
     author VARCHAR(100) NOT NULL,
     rating INT NOT NULL,
     comment TEXT,
-    category_id INT,                              -- nowa kolumna
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_review_specialist
-        FOREIGN KEY (specialist_id)
-        REFERENCES specialists(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_review_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
-        ON DELETE SET NULL,
-
-    CONSTRAINT fk_review_category
-        FOREIGN KEY (category_id)
-        REFERENCES categories(id)
-        ON DELETE SET NULL
+    CONSTRAINT fk_review_specialist FOREIGN KEY (specialist_id) REFERENCES specialists(id) ON DELETE CASCADE,
+    CONSTRAINT fk_review_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
 CREATE TABLE locations (
@@ -68,18 +46,9 @@ CREATE TABLE locations (
 CREATE TABLE specialist_locations (
     specialist_id INT NOT NULL,
     location_id INT NOT NULL,
-
     PRIMARY KEY (specialist_id, location_id),
-
-    CONSTRAINT fk_specialist
-        FOREIGN KEY (specialist_id)
-        REFERENCES specialists(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_location
-        FOREIGN KEY (location_id)
-        REFERENCES locations(id)
-        ON DELETE CASCADE
+    CONSTRAINT fk_specialist FOREIGN KEY (specialist_id) REFERENCES specialists(id) ON DELETE CASCADE,
+    CONSTRAINT fk_location FOREIGN KEY (location_id) REFERENCES locations(id) ON DELETE CASCADE
 );
 
 CREATE TABLE categories (
@@ -90,18 +59,9 @@ CREATE TABLE categories (
 CREATE TABLE specialist_categories (
     specialist_id INT NOT NULL,
     category_id INT NOT NULL,
-
     PRIMARY KEY (specialist_id, category_id),
-
-    CONSTRAINT fk_specialist_category_specialist
-        FOREIGN KEY (specialist_id)
-        REFERENCES specialists(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_specialist_category_category
-        FOREIGN KEY (category_id)
-        REFERENCES categories(id)
-        ON DELETE CASCADE
+    CONSTRAINT fk_specialist_category_specialist FOREIGN KEY (specialist_id) REFERENCES specialists(id) ON DELETE CASCADE,
+    CONSTRAINT fk_specialist_category_category FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
 
 CREATE TABLE portfolio_items (
@@ -109,11 +69,7 @@ CREATE TABLE portfolio_items (
     specialist_id INT NOT NULL,
     title VARCHAR(150) NOT NULL,
     image_url TEXT NOT NULL,
-
-    CONSTRAINT fk_portfolio_specialist
-        FOREIGN KEY (specialist_id)
-        REFERENCES specialists(id)
-        ON DELETE CASCADE
+    CONSTRAINT fk_portfolio_specialist FOREIGN KEY (specialist_id) REFERENCES specialists(id) ON DELETE CASCADE
 );
 
 INSERT INTO locations (city) VALUES

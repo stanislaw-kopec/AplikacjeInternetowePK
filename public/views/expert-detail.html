@@ -107,75 +107,64 @@
                 </div>
 
                 <div class="reviews-section">
-                    <div class="reviews-header">
-                        <h2>Client Feedback</h2>
-                        <?php if ($isLoggedIn && ($currentUserRole ?? '') === 'User'): ?>
-                            <button class="btn-write-review" type="button" onclick="toggleReviewForm()">
-                                Write Review <span class="material-symbols-outlined">edit</span>
-                            </button>
-                        <?php endif; ?>
+    <div class="reviews-header">
+        <h2>Client Feedback</h2>
+        <?php if ($isLoggedIn && ($currentUserRole ?? '') === 'User'): ?>
+            <button class="btn-write-review" type="button" onclick="toggleReviewForm()">
+                Write Review <span class="material-symbols-outlined">edit</span>
+            </button>
+        <?php endif; ?>
+    </div>
+    <div class="reviews-list">
+        <?php foreach (($reviews ?? []) as $review): ?>
+            <div class="review-card">
+                <div class="review-header">
+                    <div>
+                        <p class="review-author"><?= htmlspecialchars($review->getAuthor()) ?></p>
+                        <p class="review-date"><?= htmlspecialchars($review->getCreatedAt() ? date('F j, Y', strtotime($review->getCreatedAt())) : '') ?></p>
                     </div>
-                    <div class="reviews-list">
-                        <?php foreach (($reviews ?? []) as $review): ?>
-                            <div class="review-card">
-                                <div class="review-header">
-                                    <div>
-                                        <p class="review-author"><?= htmlspecialchars($review->getAuthor()) ?></p>
-                                        <p class="review-date"><?= htmlspecialchars($review->getCreatedAt() ? date('F j, Y', strtotime($review->getCreatedAt())) : '') ?></p>
-                                    </div>
-                                    <div class="review-stars">
-                                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' <?= $i <= $review->getRating() ? '1' : '0' ?>;">star</span>
-                                        <?php endfor; ?>
-                                    </div>
-                                </div>
-                                <p class="review-text">"<?= htmlspecialchars($review->getComment()) ?>"</p>
-                            </div>
-                        <?php endforeach; ?>
+                    <div class="review-stars">
+                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' <?= $i <= $review->getRating() ? '1' : '0' ?>;">star</span>
+                        <?php endfor; ?>
                     </div>
-
-                    <!-- Formularz opinii (ukryty domyślnie) -->
-                    <?php if ($isLoggedIn && ($currentUserRole ?? '') === 'User'): ?>
-                    <div id="reviewFormContainer" style="display: none; margin-top: 2rem;">
-                        <form class="review-form" method="POST" action="/review/<?= htmlspecialchars((string)$specialistId) ?>">
-                            <input type="hidden" name="specialist_id" value="<?= htmlspecialchars((string)$specialistId) ?>">
-                            
-                            <!-- Ocena – lista rozwijana -->
-                    <div class="form-group">
-                        <label for="reviewRating">Rating</label>
-                        <select id="reviewRating" name="rating" required>
-                            <option value="">-- Select rating --</option>
-                            <option value="5">★★★★★ (5 stars)</option>
-                            <option value="4">★★★★☆ (4 stars)</option>
-                            <option value="3">★★★☆☆ (3 stars)</option>
-                            <option value="2">★★☆☆☆ (2 stars)</option>
-                            <option value="1">★☆☆☆☆ (1 star)</option>
-                        </select>
-                    </div>
-
-                            <!-- Komentarz -->
-                            <div class="form-group">
-                                <label for="reviewComment">Your Review</label>
-                                <textarea id="reviewComment" name="comment" rows="4" required
-                                          placeholder="Share your experience..."></textarea>
-                            </div>
-
-                            <!-- Lista rozwijana z dziedziną usługi -->
-                            <div class="form-group">
-                                <label for="serviceCategory">Service Used</label>
-                                <select id="serviceCategory" name="category_id" required>
-                                    <option value="">-- Choose category --</option>
-                                    <?php foreach ($specialist->getCategories() as $cat): ?>
-                                        <option value="<?= $cat->getId() ?>"><?= htmlspecialchars($cat->getName()) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <button type="submit" class="btn-send">Submit Review</button>
-                        </form>
-                    </div>
-                    <?php endif; ?>
                 </div>
+                <p class="review-text">"<?= htmlspecialchars($review->getComment()) ?>"</p>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <!-- Formularz opinii (ukryty domyślnie) -->
+    <?php if ($isLoggedIn && ($currentUserRole ?? '') === 'User'): ?>
+    <div id="reviewFormContainer" style="display: none; margin-top: 2rem;">
+        <form class="review-form" method="POST" action="/review/<?= htmlspecialchars((string)$specialistId) ?>">
+            <input type="hidden" name="specialist_id" value="<?= htmlspecialchars((string)$specialistId) ?>">
+            
+            <!-- Ocena – lista rozwijana z gwiazdkami -->
+            <div class="form-group">
+                <label for="reviewRating">Rating</label>
+                <select id="reviewRating" name="rating" required>
+                    <option value="">-- Select rating --</option>
+                    <option value="5">★★★★★ (5 stars)</option>
+                    <option value="4">★★★★☆ (4 stars)</option>
+                    <option value="3">★★★☆☆ (3 stars)</option>
+                    <option value="2">★★☆☆☆ (2 stars)</option>
+                    <option value="1">★☆☆☆☆ (1 star)</option>
+                </select>
+            </div>
+
+            <!-- Komentarz -->
+            <div class="form-group">
+                <label for="reviewComment">Your Review</label>
+                <textarea id="reviewComment" name="comment" rows="4" required
+                          placeholder="Share your experience..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-send">Submit Review</button>
+        </form>
+    </div>
+    <?php endif; ?>
+</div>
             </section>
         </div>
     </main>
