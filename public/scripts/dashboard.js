@@ -4,7 +4,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const ratingBtns = document.querySelectorAll('.rating-btn');
     const profileCards = document.querySelectorAll('.profile-card');
 
-    // Obsługa przycisków oceny
+    // ----- Odczyt parametrów z URL (home → dashboard) -----
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramCity = urlParams.get('city');
+    const paramCategory = urlParams.get('category');
+
+    if (paramCity && cityInput) {
+        cityInput.value = paramCity;
+    }
+    if (paramCategory) {
+        const catLower = paramCategory.toLowerCase();
+        categoryCheckboxes.forEach(cb => {
+            if (cb.dataset.category === catLower) {
+                cb.checked = true;
+            }
+        });
+    }
+
+    // Natychmiastowe filtrowanie po parametrach
+    if (paramCity || paramCategory) {
+        filterCards();
+    }
+
+    // Rating
     ratingBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             ratingBtns.forEach(b => b.classList.remove('active'));
@@ -13,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Miasto
+    // Miasto (Enter)
     if (cityInput) {
         cityInput.addEventListener('keyup', function(e) {
             if (e.key === 'Enter') filterCards();
@@ -23,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Kategorie
     categoryCheckboxes.forEach(cb => cb.addEventListener('change', filterCards));
 
+    // Główna funkcja filtrująca
     function filterCards() {
         const searchCity = cityInput ? cityInput.value.trim().toLowerCase() : '';
         const selectedCategories = [];
@@ -30,20 +53,19 @@ document.addEventListener('DOMContentLoaded', function() {
             if (cb.checked) selectedCategories.push(cb.dataset.category.toLowerCase());
         });
 
-        // Pobranie minimalnej oceny
         const activeRatingBtn = document.querySelector('.rating-btn.active');
         const minRating = activeRatingBtn ? activeRatingBtn.dataset.rating : 'all';
 
         profileCards.forEach(card => {
             let visible = true;
 
-            // Filtrowanie miasta
+            // Miasto
             if (searchCity) {
                 const cardText = card.textContent.toLowerCase();
                 if (!cardText.includes(searchCity)) visible = false;
             }
 
-            // Filtrowanie kategorii
+            // Kategorie
             if (visible && selectedCategories.length > 0) {
                 const raw = card.dataset.categories || '';
                 const cardCats = raw.toLowerCase().split(',').map(s => s.trim()).filter(s => s !== '');
@@ -55,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            // Filtrowanie oceny
+            // Ocena
             if (visible && minRating !== 'all') {
                 const ratingEl = card.querySelector('.rating-value');
                 if (ratingEl) {

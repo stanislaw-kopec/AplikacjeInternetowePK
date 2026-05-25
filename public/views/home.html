@@ -5,11 +5,9 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>FachowiecNaJuz - Find Verified Experts</title>
     
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/public/styles/home.css"/>
     <link rel="stylesheet" href="/public/styles/partials/navbar.css"/>
     <link rel="stylesheet" href="/public/styles/partials/footer.css"/>
@@ -17,12 +15,9 @@
 <body>
     <?php include 'public/views/partials/navbar.html'; ?>
 
-    <!-- Main Content -->
     <main>
-        <!-- Hero Section -->
         <section class="hero-section">
             <div class="hero-container">
-                <!-- Hero Content -->
                 <div class="hero-content">
                     <h1 class="hero-title">
                         Find <span class="hero-title-accent">Verified Experts</span> in Your Area
@@ -36,41 +31,50 @@
                         <div class="search-fields">
                             <div class="search-field">
                                 <span class="material-symbols-outlined search-icon">construction</span>
-                                <input class="search-input" placeholder="Expertise (e.g. #plumber)" type="text"/>
+                                <input class="search-input" id="expertiseInput" placeholder="Expertise (e.g. plumber)" type="text" list="expertise-list">
+                                <datalist id="expertise-list">
+                                    <option value="Hydraulics">
+                                    <option value="Emergency">
+                                    <option value="Boilers">
+                                    <option value="Electrical">
+                                    <option value="Smart Home">
+                                    <option value="Renovation">
+                                    <option value="Diagnostics">
+                                </datalist>
                             </div>
                             <div class="search-field">
                                 <span class="material-symbols-outlined search-icon">location_on</span>
-                                <input class="search-input" placeholder="City" type="text"/>
+                                <input class="search-input" id="cityInput" placeholder="City" type="text" list="city-list">
+                                <datalist id="city-list">
+                                    <option value="Warszawa">
+                                    <option value="Krakow">
+                                    <option value="Gdansk">
+                                </datalist>
                             </div>
-                            <button class="btn-search">Search Now</button>
+                            <button class="btn-search" id="searchButton">Search Now</button>
                         </div>
                     </div>
                     
-                    <!-- Popular Hashtags -->
+                    <!-- Popular Hashtags – teraz z prawdziwymi kategoriami -->
                     <div class="popular-tags">
                         <span class="tags-label">Popular:</span>
-                        <span class="tag">#electrician</span>
-                        <span class="tag">#carpenter</span>
-                        <span class="tag">#hvac</span>
-                        <span class="tag">#painter</span>
+                        <span class="tag" data-category="electrical">#electrical</span>
+                        <span class="tag" data-category="hydraulics">#hydraulics</span>
+                        <span class="tag" data-category="renovation">#renovation</span>
+                        <span class="tag" data-category="smart home">#smarthome</span>
                     </div>
                 </div>
                 
-                <!-- Hero Image -->
+                <!-- Hero Image (bez zmian) -->
                 <div class="hero-image-wrapper">
                     <div class="hero-image-container">
-                        <img 
-                            alt="Professional electrician working" 
-                            class="hero-image" 
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPUQrKvWcYSi2qjc0XUralZD0z4Btuq3cHS0IGiELTXNRS4LO3IDYVLk5DeZuOhHOyhzPcNv6pKo8YO6K4WCXgDqCSOpXq8PPcqDxSmwJiTMxmvceelauAiARt5w5n9KzmPt0oisMD0JYffM2e_0juQL6nb9pCSeyzZgfooChF-dDxtOwLlHDYzKeoMgdjvxo4GXU1GsEWGKHWslioNlHlMBYEYES987f0pCMAIkwqMKqiDcSsvA-UCDScyuVXHulbaaw8Riofkgs"
-                        />
+                        <img alt="Professional electrician working" class="hero-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPUQrKvWcYSi2qjc0XUralZD0z4Btuq3cHS0IGiELTXNRS4LO3IDYVLk5DeZuOhHOyhzPcNv6pKo8YO6K4WCXgDqCSOpXq8PPcqDxSmwJiTMxmvceelauAiARt5w5n9KzmPt0oisMD0JYffM2e_0juQL6nb9pCSeyzZgfooChF-dDxtOwLlHDYzKeoMgdjvxo4GXU1GsEWGKHWslioNlHlMBYEYES987f0pCMAIkwqMKqiDcSsvA-UCDScyuVXHulbaaw8Riofkgs"/>
                         <div class="hero-image-overlay"></div>
                         <div class="hero-image-quote">
                             <p class="quote-text">"Quality work delivered on time."</p>
                             <p class="quote-author">— Marek, Certified Electrician</p>
                         </div>
                     </div>
-                    <!-- Decorative Elements -->
                     <div class="decorative-circle decorative-circle-1"></div>
                     <div class="decorative-circle decorative-circle-2"></div>
                 </div>
@@ -89,37 +93,20 @@
             </div>
             
             <div class="steps-grid">
-                <!-- Step 1 -->
                 <div class="step-card">
-                    <div class="step-icon">
-                        <span class="material-symbols-outlined">search_check</span>
-                    </div>
+                    <div class="step-icon"><span class="material-symbols-outlined">search_check</span></div>
                     <h3 class="step-title">Browse Vetted Professionals</h3>
-                    <p class="step-description">
-                        Explore our curated database of local artisans. Each professional undergoes a rigorous identity and skill verification process.
-                    </p>
+                    <p class="step-description">Explore our curated database of local artisans. Each professional undergoes a rigorous identity and skill verification process.</p>
                 </div>
-                
-                <!-- Step 2 -->
                 <div class="step-card">
-                    <div class="step-icon">
-                        <span class="material-symbols-outlined">chat_bubble</span>
-                    </div>
+                    <div class="step-icon"><span class="material-symbols-outlined">chat_bubble</span></div>
                     <h3 class="step-title">Get Instant Quotes</h3>
-                    <p class="step-description">
-                        Describe your needs and receive transparent pricing from available experts in real-time. No hidden fees, ever.
-                    </p>
+                    <p class="step-description">Describe your needs and receive transparent pricing from available experts in real-time. No hidden fees, ever.</p>
                 </div>
-                
-                <!-- Step 3 -->
                 <div class="step-card">
-                    <div class="step-icon">
-                        <span class="material-symbols-outlined">verified_user</span>
-                    </div>
+                    <div class="step-icon"><span class="material-symbols-outlined">verified_user</span></div>
                     <h3 class="step-title">Hire with Confidence</h3>
-                    <p class="step-description">
-                        Confirm your booking and rest easy. All services performed through FachowiecNaJuz are backed by our satisfaction guarantee.
-                    </p>
+                    <p class="step-description">Confirm your booking and rest easy. All services performed through FachowiecNaJuz are backed by our satisfaction guarantee.</p>
                 </div>
             </div>
         </section>
@@ -127,13 +114,10 @@
         <!-- Feature Spotlight Section -->
         <section class="features-section">
             <div class="features-grid">
-                <!-- Main Feature Card -->
                 <div class="feature-card feature-card-main">
                     <div class="feature-card-content">
                         <h3 class="feature-title">Expertise You Can Trust</h3>
-                        <p class="feature-description">
-                            We manually review every artisan's portfolio and certification. Our community rating system ensures that only the best continue to serve our customers.
-                        </p>
+                        <p class="feature-description">We manually review every artisan's portfolio and certification. Our community rating system ensures that only the best continue to serve our customers.</p>
                     </div>
                     <div class="feature-avatars">
                         <div class="avatars-group">
@@ -144,24 +128,16 @@
                         <span class="avatars-count">+2,400 Pros in Warsaw</span>
                     </div>
                 </div>
-                
-                <!-- Support Card -->
                 <div class="feature-card feature-card-support">
                     <span class="material-symbols-outlined support-icon">support_agent</span>
                     <h4 class="support-title">24/7 Priority Support</h4>
                     <p class="support-description">Emergency pipe burst? We've got you covered round the clock.</p>
-                    <div class="support-bg-icon">
-                        <span class="material-symbols-outlined">contact_support</span>
-                    </div>
+                    <div class="support-bg-icon"><span class="material-symbols-outlined">contact_support</span></div>
                 </div>
-                
-                <!-- Stat Card 1 -->
                 <div class="feature-card feature-card-stat feature-card-stat-1">
                     <h4 class="stat-number">100%</h4>
                     <p class="stat-label">Vetted Pros</p>
                 </div>
-                
-                <!-- Stat Card 2 -->
                 <div class="feature-card feature-card-stat feature-card-stat-2">
                     <h4 class="stat-number">45min</h4>
                     <p class="stat-label">Avg. Response</p>
@@ -172,7 +148,6 @@
 
     <?php include 'public/views/partials/footer.html'; ?>
 
-    <!-- Custom JavaScript -->
     <script src="/public/scripts/partials/navbar.js"></script>
     <script src="/public/scripts/home.js"></script>
 </body>
