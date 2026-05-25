@@ -1,7 +1,6 @@
 <?php
 
 require_once 'AppController.php';
-
 require_once __DIR__.'/../repositories/UsersRepository.php';
 require_once __DIR__.'/../repositories/SpecialistRepository.php';
 require_once __DIR__.'/../models/User.php';
@@ -19,7 +18,6 @@ class SecurityController extends AppController {
         $password = $_POST['password'];
 
         $usersRepository = new UsersRepository();
-
         $user = $usersRepository->getUserByEmail($email);
 
         if (!$user) {
@@ -54,28 +52,21 @@ class SecurityController extends AppController {
             return;
         }
 
-        $hashedPassword = password_hash(
-            $password,
-            PASSWORD_DEFAULT
-        );
-
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $usersRepository = new UsersRepository();
 
         $existingUser = $usersRepository->getUserByEmail($email);
-
         if ($existingUser) {
             echo "User already exists";
             return;
         }
 
-        $user = new User(
-            $email,
-            $hashedPassword,
-            0,
-            $role
-        );
-
+        $user = new User($email, $hashedPassword, 0, $role);
         $userId = $usersRepository->createUser($user);
+
+        // --- AUTOMATYCZNE LOGOWANIE PO REJESTRACJI ---
+        $_SESSION['user_id'] = $userId;
+        $_SESSION['user_role'] = $role;
 
         if ($role === 'Specialist') {
             $name = explode('@', $email)[0];
@@ -93,11 +84,14 @@ class SecurityController extends AppController {
                 0,
                 '< 1 hour'
             );
-
             (new SpecialistRepository())->createSpecialist($specialist);
+            // Przekieruj do ustawień profilu, gdzie może uzupełnić dane
+            header("Location: /profile-settings");
+            return;
         }
 
-        header("Location: /login");
+        // Dla zwykłego użytkownika przekieruj na dashboard
+        header("Location: /dashboard");
     }
 
     public function logout()
@@ -111,7 +105,6 @@ class SecurityController extends AppController {
         if (!$redirect || !str_starts_with($redirect, '/') || str_starts_with($redirect, '//')) {
             return '/dashboard';
         }
-
         return $redirect;
     }
 }
