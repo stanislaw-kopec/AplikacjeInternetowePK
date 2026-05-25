@@ -1,61 +1,99 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Rating filter buttons
+    // Elementy filtrów
+    const cityInput = document.querySelector('.filter-input-wrapper input');
+    const categoryCheckboxes = document.querySelectorAll('.specialization-option input[type="checkbox"]');
     const ratingBtns = document.querySelectorAll('.rating-btn');
+    const profileCards = document.querySelectorAll('.profile-card');
+
+    // Ocena – wizualna aktywacja
     ratingBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             ratingBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
-        });
-    });
-    
-    // City filter
-    const cityInput = document.querySelector('.filter-input-wrapper input');
-    if (cityInput) {
-        cityInput.addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') {
-                filterCards();
-            }
-        });
-    }
-    
-    // Specialization checkboxes
-    const checkboxes = document.querySelectorAll('.specialization-option input[type="checkbox"]');
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
             filterCards();
         });
     });
-    
-    // Filter function
-    function filterCards() {
-        const cards = document.querySelectorAll('.profile-card');
-        const searchTerm = cityInput ? cityInput.value.toLowerCase() : '';
-        
-        cards.forEach(card => {
-            let visible = true;
-            
-            if (searchTerm) {
-                const cardText = card.textContent.toLowerCase();
-                visible = cardText.includes(searchTerm);
-            }
-            
-            card.style.display = visible ? 'block' : 'none';
+
+    // Miasto – filtr po wciśnięciu Enter
+    if (cityInput) {
+        cityInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') filterCards();
         });
     }
-    
-    // Sign In button handlers
-    const signInButtons = document.querySelectorAll('.btn-sign-in');
-    signInButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            window.location.href = '/login';
-        });
+
+    // Kategorie – reakcja na zmianę checkboxa
+    categoryCheckboxes.forEach(cb => {
+        cb.addEventListener('change', filterCards);
     });
 
-    // Navigation scroll effect
-    const nav = document.querySelector('.glass-nav');
-    window.addEventListener('scroll', function() {
-        nav.style.boxShadow = window.pageYOffset > 100 
-            ? '0 4px 6px rgba(0, 0, 0, 0.07)' 
-            : '0 1px 2px rgba(0, 0, 0, 0.05)';
+    // Główna funkcja filtrująca
+    function filterCards() {
+        const searchCity = cityInput ? cityInput.value.trim().toLowerCase() : '';
+        const selectedCategories = [];
+        categoryCheckboxes.forEach(cb => {
+            if (cb.checked) {
+                selectedCategories.push(cb.dataset.category.toLowerCase());
+            }
+        });
+
+        const activeRatingBtn = document.querySelector('.rating-btn.active');
+        const minRating = activeRatingBtn ? activeRatingBtn.dataset.rating : 'all';
+
+        profileCards.forEach(card => {
+            let visible = true;
+
+            // Filtrowanie po mieście (szukanie w całej treści karty)
+            if (searchCity) {
+                const cardText = card.textContent.toLowerCase();
+                if (!cardText.includes(searchCity)) {
+                    visible = false;
+                }
+            }
+
+            // Filtrowanie po kategoriach
+            if (visible && selectedCategories.length > 0) {
+                const cardCats = (card.dataset.categories || '').toLowerCase().split(',').map(s => s.trim());
+                const hasCategory = selectedCategories.some(cat => cardCats.includes(cat));
+                if (!hasCategory) {
+                    visible = false;
+                }
+            }
+
+            // Filtrowanie po minimalnej ocenie (opcjonalne, na przyszłość)
+            if (visible && minRating !== 'all') {
+                const ratingEl = card.querySelector('.rating-value');
+                if (ratingEl) {
+                    const ratingText = ratingEl.textContent.trim();
+                    const rating = ratingText === 'New' ? 0 : parseFloat(ratingText);
+                    if (rating < parseFloat(minRating)) {
+                        visible = false;
+                    }
+                }
+            }
+
+            card.style.display = visible ? '' : 'none';
+        });
+
+        // Aktualizacja licznika widocznych kart
+        const visibleCards = document.querySelectorAll('.profile-card[style*="display: block"], .profile-card:not([style*="display"])');
+        const header = document.querySelector('.results-header h1');
+        if (header) {
+            header.innerHTML = `${visibleCards.length} Results for <span>Experts</span>`;
+        }
+    }
+
+    // Przycisk Sign In (jeśli występuje)
+    document.querySelectorAll('.btn-sign-in').forEach(btn => {
+        btn.addEventListener('click', () => window.location.href = '/login');
     });
+
+    // Cień na pasku nawigacji przy przewijaniu
+    const nav = document.querySelector('.glass-nav');
+    if (nav) {
+        window.addEventListener('scroll', () => {
+            nav.style.boxShadow = window.pageYOffset > 100
+                ? '0 4px 6px rgba(0,0,0,0.07)'
+                : '0 1px 2px rgba(0,0,0,0.05)';
+        });
+    }
 });

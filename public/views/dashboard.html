@@ -27,7 +27,7 @@
                     <div class="filter-section">
                         <label class="filter-label">City</label>
                         <div class="filter-input-wrapper">
-                            <input type="text" value="<?= htmlspecialchars(($locations[0] ?? null) ? $locations[0]->getCity() : 'Warszawa') ?>"/>
+                            <input type="text" value="<?= htmlspecialchars(($locations[0] ?? null) ? $locations[0]->getCity() : 'Warszawa') ?>" placeholder="Type city and press Enter..."/>
                             <span class="material-symbols-outlined">location_on</span>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                     <div class="filter-section">
                         <label class="filter-label">Minimum Rating</label>
                         <div class="rating-options">
-                            <button class="rating-btn active">
+                            <button class="rating-btn active" data-rating="all">
                                 <div class="rating-stars">
                                     <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
                                     <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -51,7 +51,7 @@
                         <div class="specialization-options">
                             <?php foreach (($categories ?? []) as $category): ?>
                                 <label class="specialization-option">
-                                    <input type="checkbox"/>
+                                    <input type="checkbox" data-category="<?= htmlspecialchars(strtolower($category->getName())) ?>"/>
                                     <span><?= htmlspecialchars($category->getName()) ?></span>
                                 </label>
                             <?php endforeach; ?>
@@ -62,7 +62,11 @@
 
             <div class="cards-grid">
                 <?php foreach (($specialists ?? []) as $specialist): ?>
-                    <div class="profile-card">
+                    <?php
+                    $categoryNames = array_map(fn($cat) => strtolower($cat->getName()), $specialist->getCategories());
+                    $catString = implode(',', $categoryNames);
+                    ?>
+                    <div class="profile-card" data-categories="<?= htmlspecialchars($catString) ?>">
                         <div class="card-header">
                             <img
                                 alt="<?= htmlspecialchars($specialist->getName()) ?>"
