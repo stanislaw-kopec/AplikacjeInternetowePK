@@ -1,125 +1,190 @@
-# AplikacjeInternetowePK - FachowiecNaJuz
+# FachowiecNaJuz
 
-## 🔄 Recent Updates: Authentication & API Integration
+Platforma łącząca klientów z zaufanymi fachowcami. Przeglądaj profile specjalistów, filtruj według lokalizacji i kategorii, czytaj opinie i wystawiaj własne.
 
-### ✨ What's New
+---
 
-#### 1. **Optional Authentication**
-- Default route changed from `/login` to `/home` - users can now browse without logging in
-- Login modal appears on demand when clicking "Sign In" button instead of full page redirect
-- Session-based authentication with `$_SESSION['user_id']`
+## Spis treści
 
-#### 2. **API Endpoints**
-New JSON API endpoints for frontend integration:
+- [FachowiecNaJuz](#fachowiecnajuz)
+  - [Spis treści](#spis-treści)
+  - [Opis projektu](#opis-projektu)
+  - [Funkcjonalności](#funkcjonalności)
+    - [Dla użytkownika](#dla-użytkownika)
+    - [Dla specjalisty](#dla-specjalisty)
+  - [Technologie](#technologie)
+  - [Uruchomienie (Docker)](#uruchomienie-docker)
+  - [Diagram ERD](#diagram-erd)
+  - [Przepływ użytkownika](#przepływ-użytkownika)
+  - [API](#api)
+  - [Zrzuty ekranu](#zrzuty-ekranu)
+    - [Strona główna](#strona-główna)
+    - [Dashboard z filtrami](#dashboard-z-filtrami)
+    - [Profil specjalisty](#profil-specjalisty)
+    - [Formularz opinii](#formularz-opinii)
+    - [Kokpit profesjonalisty](#kokpit-profesjonalisty)
+    - [Edycja profilu specjalisty](#edycja-profilu-specjalisty)
+    - [Responsywność (widok mobilny)](#responsywność-widok-mobilny)
+  - [Przyszłe prace](#przyszłe-prace)
 
-- **`POST /api/login`** - User authentication
-  ```json
-  Request: { "email": "user@example.com", "password": "password" }
-  Response: { "success": true, "user_id": 123, "email": "user@example.com" }
-  ```
+---
 
-- **`POST /api/logout`** - User logout
-  ```json
-  Response: { "success": true, "message": "Logged out successfully" }
-  ```
+## Opis projektu
 
-- **`GET /api/specialists`** - List all specialists
-  ```json
-  Response: { "success": true, "data": [...specialists] }
-  ```
+FachowiecNaJuz umożliwia szybkie znalezienie sprawdzonego fachowca w Twojej okolicy. Aplikacja oferuje dwa rodzaje kont:  
+- **Użytkownik (User)** – przegląda profile, filtruje ekspertów, wystawia opinie.  
+- **Specjalista (Specialist)** – zarządza własnym profilem, kategoriami, lokalizacjami i zdjęciami prac.
 
-- **`GET /api/locations`** - List all locations
-  ```json
-  Response: { "success": true, "data": [...locations] }
-  ```
+---
 
-- **`POST /api/specialists`** - Create specialist (requires auth)
-- **`POST /api/locations`** - Create location (requires auth)
+## Funkcjonalności
 
-#### 3. **Frontend Integration**
-- **`api-helper.js`** - Centralized API communication helper
-  - Automatic error handling and 401 response management
-  - LocalStorage-based session management
-  - Methods: `ApiHelper.login()`, `ApiHelper.getSpecialists()`, `ApiHelper.getLocations()`
+### Dla użytkownika
+- Rejestracja i logowanie (z szyfrowaniem haseł)
+- Przeglądanie fachowców z ich średnią oceną i liczbą recenzji
+- Filtrowanie po mieście, kategoriach i minimalnej ocenie
+- Szczegółowy widok profilu specjalisty (opis, kategorie, portfolio, opinie)
+- Dodawanie opinii wraz z oceną gwiazdkową
+- Responsywny design – wygodne przeglądanie na telefonie i komputerze
 
-- **Login Modal** - `partials/login-modal.html`
-  - Non-blocking modal instead of full page redirect
-  - Form validation and error display
-  - Styling with Tailwind-like classes
+### Dla specjalisty
+- Tworzenie i edycja profilu publicznego
+- Zarządzanie kategoriami usług (np. Hydraulika, Elektryka)
+- Wybór miast, w których działa
+- Dodawanie zdjęć do portfolio
+- Podgląd statystyk i opinii w dedykowanym kokpicie
 
-- **Updated JavaScript**
-  - `home.js` - Sign In button opens modal
-  - `dashboard.js` - Sign In/Join buttons integrated with modal
+---
 
-### 📁 New Files Created
+## Technologie
 
-**Backend:**
-- `src/controllers/ApiController.php` - Base API controller with JSON response methods
-- `src/controllers/ApiSecurityController.php` - Authentication endpoints
-- `src/controllers/ApiSpecialistController.php` - Specialist API endpoints
-- `src/controllers/ApiLocationController.php` - Location API endpoints
+| Warstwa   | Technologia                      |
+|-----------|----------------------------------|
+| Backend   | PHP 8.3 (obiektowo, MVC)        |
+| Frontend  | HTML5, CSS3, JavaScript (Vanilla)|
+| Baza danych | PostgreSQL 15                  |
+| Serwer    | Nginx + PHP-FPM                 |
+| Środowisko | Docker + Docker Compose         |
 
-**Frontend:**
-- `public/scripts/api-helper.js` - API communication utility
-- `public/views/partials/login-modal.html` - Login modal component
+---
 
-### 🔧 Modified Files
+## Uruchomienie (Docker)
 
-**Backend:**
-- `Routing.php` - Added API routes handling and changed default route to `/home`
-- `src/controllers/AppController.php` - Added `isLoggedIn()`, `getCurrentUser()`, `requireAuth()` methods
-- `src/repositories/UsersRepository.php` - Added `getUserById()` method
+1. Sklonuj repozytorium:
+   ```bash
+   git clone https://github.com/twoje-repozytorium.git
+   cd AplikacjeInternetowePK
 
-**Frontend:**
-- `public/views/home.html` - Added login modal and API helper script
-- `public/views/dashboard.html` - Added login modal and API helper script
-- `public/scripts/home.js` - Added Sign In button handlers
-- `public/scripts/dashboard.js` - Added Sign In/Join button handlers
+2. Uruchom kontenery:
 
-### 🚀 Usage Examples
+    ```bash
+    docker-compose up -d
+    ```
+    
+    
+3. Aplikacja będzie dostępna pod adresem http://localhost:8080.
 
-#### Login with JavaScript
-```javascript
-try {
-    const response = await ApiHelper.login('user@example.com', 'password');
-    console.log('Logged in as:', response.email);
-} catch (error) {
-    console.error('Login failed:', error.message);
-}
+4. Dane testowe:
+
+- Użytkownik: jan.kowalski@example.com / password123
+
+- Specjalista: adam.kowalski@pro.pl / password123
+
+5. Panel administracyjny bazy danych (pgAdmin):
+
+- URL: http://localhost:5050
+
+- Email: admin@admin.com
+
+- Hasło: admin
+
+Pierwsze uruchomienie może potrwać chwilę – kontener PostgreSQL wykonuje skrypt init.sql tworzący strukturę i dane startowe.
+
+Struktura projektu (MVC)
+
+```text
+src/
+ ├── controllers/   # Kontrolery (AppController, ApiController, Security...)
+ ├── models/        # Modele danych (User, Specialist, Review...)
+ ├── repositories/  # Warstwa dostępu do bazy (PDO)
+public/
+ ├── scripts/       # Pliki JavaScript
+ ├── styles/        # Arkusze CSS
+ ├── views/         # Szablony HTML
+docker/             # Konfiguracja Docker (PHP, Nginx, DB)
 ```
+Przepływ: Widok (HTML/JS) → Kontroler → Repozytorium → Baza danych i z powrotem.
 
-#### Fetch Specialists
-```javascript
-const data = await ApiHelper.getSpecialists();
-console.log('Specialists:', data.data);
-```
+## Diagram ERD
 
-#### Check Login Status
-```javascript
-if (ApiHelper.isUserLoggedIn()) {
-    console.log('User ID:', localStorage.getItem('user_id'));
-}
-```
+Poniżej znajduje się diagram encji dla bazy danych PostgreSQL.
 
-### ⚙️ Configuration
+![Diagram ERD](/screenshots/diagramERD.png)
 
-The application uses:
-- **PHP Sessions** - Server-side session management via `$_SESSION['user_id']`
-- **LocalStorage** - Client-side session state tracking
-- **PostgreSQL** - Database with `users` table
+Opis najważniejszych relacji:
 
-### 🔐 Security Notes
+- users 1:1 profiles (każdy użytkownik ma profil)
 
-- Passwords are hashed with `password_hash()` (PASSWORD_DEFAULT)
-- Protected endpoints check `requireAuth()` which validates session
-- API returns 401 status for unauthorized requests
-- Login modal triggers automatically on 401 responses
+- users 1:1 specialists (użytkownik z rolą Specialist ma profil specjalisty)
 
-### 📝 Next Steps
+- specialists 1:N reviews (jeden specjalista – wiele opinii)
 
-Future improvements could include:
-- JWT tokens for stateless authentication
-- Remember me functionality
-- Password reset flow
-- Two-factor authentication
-- API rate limiting
+- specialists 1:N portfolio_items (jeden specjalista – wiele zdjęć)
+
+- specialists M:N categories (przez specialist_categories)
+
+- specialists M:N locations (przez specialist_locations)
+
+## Przepływ użytkownika
+1. Strona główna – użytkownik może od razu wyszukać fachowca po kategorii i mieście.
+
+2. Dashboard (Find Experts) – wyniki wyszukiwania, filtrowanie dynamiczne po stronie klienta.
+
+3. Profil eksperta – szczegółowe informacje, galeria prac i opinie. Zalogowany użytkownik może dodać opinię.
+
+4. Kokpit profesjonalisty – po zalogowaniu jako specjalista dostępne są statystyki, lista opinii i szybkie linki do edycji profilu.
+
+5. Ustawienia profilu – edycja danych, kategorii, lokalizacji i portfolio.
+   
+## API
+Aplikacja udostępnia REST API dla wybranych zasobów:
+
+
+| Metoda | Endpoint | Opis | Wymagana autoryzacja |
+| :--- | :--- | :--- | :--- |
+| **GET** | `/api/specialists` | Lista specjalistów z ocenami | Nie |
+| **GET** | `/api/locations` | Lista dostępnych miast | Nie |
+| **POST** | `/api/locations` | Dodanie nowego miasta | Tak (dowolna rola) |
+| **POST** | `/api/login` | Logowanie | Nie |
+| **POST** | `/api/logout` | Wylogowanie | Nie |
+
+
+
+## Zrzuty ekranu
+### Strona główna
+![Strona główna](/screenshots/home.png)
+
+### Dashboard z filtrami
+![Dashboard z filtrami](/screenshots/dashboard.png)
+
+### Profil specjalisty
+![Profil specjalisty](/screenshots/expert-details.png)
+
+### Formularz opinii
+![Formularz opinii](/screenshots/review.png)
+
+### Kokpit profesjonalisty
+![Kokpit profesjonalisty](/screenshots/pro-dashboard.png)
+
+### Edycja profilu specjalisty
+![Edycja profilu specjalisty](/screenshots/profile-settings.png)
+
+### Responsywność (widok mobilny)
+![Responsywność (widok mobilny)](/screenshots/mobile-view.png)
+
+## Przyszłe prace
+- Powiadomienia e‑mail o nowych opiniach
+
+- Panel administratora z moderacją treści
+
+- System wiadomości pomiędzy klientem a fachowcem

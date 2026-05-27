@@ -195,3 +195,9 @@ INSERT INTO reviews (specialist_id, user_id, author, rating, comment, created_at
 (6, 2, 'Anna Nowak', 5, 'Kafelki w łazience ułożone perfekcyjnie.', '2025-06-12 12:30:00+02'),
 (7, 3, 'Krzysztof Borys', 4, 'Złota rączka – wymienił kran i gniazdka w godzinę.', '2025-05-20 17:00:00+02'),
 (7, 1, 'Jan Kowalski', 3, 'Wszystko ok, ale trochę za drogo.', '2025-06-15 09:00:00+02');
+
+-- Aktualizacja sekwencji po ręcznym wstawieniu ID
+SELECT setval('users_id_seq', COALESCE((SELECT MAX(id) FROM users), 1));
+SELECT setval('specialists_id_seq', COALESCE((SELECT MAX(id) FROM specialists), 1));
+SELECT setval('portfolio_items_id_seq', COALESCE((SELECT MAX(id) FROM portfolio_items), 1));
+SELECT setval('reviews_id_seq', COALESCE((SELECT MAX(id) FROM reviews), 1));
