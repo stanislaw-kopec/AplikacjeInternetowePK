@@ -110,7 +110,7 @@
     <div class="reviews-header">
         <h2>Client Feedback</h2>
         <?php if ($isLoggedIn && ($currentUserRole ?? '') === 'User'): ?>
-            <button class="btn-write-review" type="button" onclick="toggleReviewForm()">
+            <button class="btn-write-review" type="button">
                 Write Review <span class="material-symbols-outlined">edit</span>
             </button>
         <?php endif; ?>

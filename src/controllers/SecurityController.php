@@ -5,6 +5,8 @@ require_once __DIR__.'/../repositories/UsersRepository.php';
 require_once __DIR__.'/../repositories/SpecialistRepository.php';
 require_once __DIR__.'/../models/User.php';
 require_once __DIR__.'/../models/Specialist.php';
+require_once __DIR__.'/../repositories/ProfileRepository.php';
+require_once __DIR__.'/../models/Profile.php';
 
 class SecurityController extends AppController {
 
@@ -63,6 +65,12 @@ class SecurityController extends AppController {
 
         $user = new User($email, $hashedPassword, 0, $role);
         $userId = $usersRepository->createUser($user);
+
+        // Automatycznie tworzymy profil dla każdego nowego użytkownika
+        $profileRepository = new ProfileRepository();
+        $profileUsername = explode('@', $email)[0];  // nazwa przed @ jako domyślny username
+        $profile = new Profile($userId, $profileUsername);
+        $profileRepository->createProfile($profile);
 
         // --- AUTOMATYCZNE LOGOWANIE PO REJESTRACJI ---
         $_SESSION['user_id'] = $userId;

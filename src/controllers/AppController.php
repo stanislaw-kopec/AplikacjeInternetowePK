@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__.'/../repositories/UsersRepository.php';
+require_once __DIR__.'/../repositories/ProfileRepository.php';
 
 class AppController {
     protected function isGet(): bool
@@ -64,6 +65,14 @@ class AppController {
                  
         if(file_exists($templatePath)){
             $currentUser = $this->getCurrentUser();
+            // Pobranie nazwy użytkownika z profilu (lub wygenerowanie z e-maila)
+            $currentUsername = null;
+            if ($currentUser) {
+                $profileRepository = new ProfileRepository();
+                $profile = $profileRepository->getProfileByUserId($currentUser->getId());
+                $currentUsername = $profile ? $profile->getUsername() : explode('@', $currentUser->getEmail())[0];
+            }
+            $variables['currentUsername'] = $currentUsername;
             $variables['isLoggedIn'] = $currentUser !== null;
             $variables['currentUserRole'] = $currentUser ? $currentUser->getRole() : null;
             $variables['currentUserEmail'] = $currentUser ? $currentUser->getEmail() : null;

@@ -104,8 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
                 return;
             }
-
-            window.location.href = '/review/' + encodeURIComponent(specialistId);
+            // Pokazujemy / ukrywamy formularz recenzji zamiast przekierowania
+            toggleReviewForm();
         });
     }
 });

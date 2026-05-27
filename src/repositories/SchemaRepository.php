@@ -126,5 +126,19 @@ class SchemaRepository extends Repository {
             )
             ON CONFLICT (specialist_id, category_id) DO NOTHING
         ");
+
+        $connection->exec("
+            DO $$
+            BEGIN
+                IF NOT EXISTS (
+                    SELECT 1 FROM information_schema.table_constraints
+                    WHERE constraint_name = 'fk_review_user' AND table_name = 'reviews'
+                ) THEN
+                    ALTER TABLE reviews ADD CONSTRAINT fk_review_user 
+                        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL;
+                END IF;
+            END;
+            $$;
+        ");
     }
 }

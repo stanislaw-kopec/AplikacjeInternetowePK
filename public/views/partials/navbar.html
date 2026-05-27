@@ -22,7 +22,7 @@ $userInitial = strtoupper(substr($currentUserEmail ?? 'U', 0, 1));
             <?php if ($isLoggedIn): ?>
                 <div class="nav-user">
                     <span class="nav-user-icon material-symbols-outlined">person</span>
-                    <span class="nav-user-label"><?= htmlspecialchars($userInitial) ?></span>
+                    <span class="nav-user-label"><?= htmlspecialchars($currentUsername ?? $userInitial) ?></span>
                 </div>
                 <a class="btn-logout" href="/logout">Logout</a>
             <?php else: ?>
