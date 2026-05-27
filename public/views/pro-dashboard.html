@@ -16,6 +16,14 @@
     <?php include 'public/views/partials/navbar.html'; ?>
 
     <main>
+
+        <?php if (!empty($_SESSION['flash_message'])): ?>
+            <div id="flash-message" style="background: #dcfce7; color: #166534; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <?= htmlspecialchars($_SESSION['flash_message']) ?>
+            </div>
+            <?php unset($_SESSION['flash_message']); ?>
+        <?php endif; ?>
+
         <header class="dashboard-header">
             <div class="dashboard-title">
                 <h1>Professional Dashboard</h1>

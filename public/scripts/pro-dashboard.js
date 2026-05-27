@@ -47,4 +47,15 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Redirecting to upgrade page...');
         });
     }
+
+
+    // Auto-hide flash message after 4 seconds
+    const flashMsg = document.getElementById('flash-message');
+    if (flashMsg) {
+        setTimeout(() => {
+            flashMsg.style.transition = 'opacity 0.5s';
+            flashMsg.style.opacity = '0';
+            setTimeout(() => flashMsg.remove(), 500);
+        }, 4000);
+    }
 });

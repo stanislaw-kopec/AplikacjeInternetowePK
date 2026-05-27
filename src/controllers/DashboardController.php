@@ -83,7 +83,8 @@ class DashboardController extends AppController {
                 $specialistRepository->addPortfolioItem($portfolioItem);
             }
 
-            header("Location: /profile-settings");
+            $_SESSION['flash_message'] = 'Profile updated successfully.';
+            header("Location: /pro-dashboard");
             return;
         }
 
